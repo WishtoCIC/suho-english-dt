@@ -22,5 +22,7 @@
 - 아이패드(크롬·사파리 모두 WebKit) + Apple Pencil: 손글씨 입력(Scribble)을 켜 두면 빠르게 이어 쓰는 획이 사라짐 → 쓰는 칸에서 touchstart/touchmove 기본 동작을 막아 우회 (WebKit bug 217430)
 - 펜·손 터치 구분: 지금 쓰는 펜(pointerId)의 신호로만 획을 시작/끝냄. 손으로 쓰는 중 펜이 닿으면 손 자국을 지우고 펜으로 전환
 
+- 아이패드 영어 읽기: 첫 터치 때 음성 잠금 해제, cancel 직후 speak 방지(150ms), 목소리 목록 늦게 오는 기기 대비 재탐색, 장난감 목소리 제외(Samantha 등 우선), 홈의 🔊 소리 점검
+
 ## 배포
 GitHub `main`에 푸시하면 Vercel이 자동 배포해요. (Framework: Other, 빌드 명령 없음, 출력 폴더 루트)
