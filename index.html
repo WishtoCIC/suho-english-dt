@@ -92,66 +92,8 @@ canvas{display:block;width:100%;touch-action:none}
 <body>
 <div id="app"></div>
 <div id="fx"></div>
+<script src="data/content.js"></script>
 <script>
-/* ===================== 시험지 내용 (DSB1 DT Preview) ===================== */
-const UNITS = [
- {id:'like', color:'var(--c1)', emoji:'❄️', title:'Do you like ~?', ko:'좋아하니?', page:'DSB1 42~43p',
-  tip:'💡 <b>You</b>로 물어보면 <b>I</b>로 대답해요.<br>💡 <b>he</b>로 물어보면 <b>he</b>로, <b>she</b>로 물어보면 <b>she</b>로!<br>💡 <b>Does</b>로 물어보면 <b>does / doesn\'t</b>로 대답해요.<br>예) Does she ~? → Yes, she does. / No, she doesn\'t.',
-  pool:['snowboarding','summer','winter','swimming'],
-  items:[
-   {pic:'🏂',q:'Do you like snowboarding?',yn:'👍',a:'Yes, I do. I like {snowboarding}.'},
-   {pic:'🏂',q:'Do you like snowboarding?',yn:'👎',a:"No, I don't. I don't like {snowboarding}."},
-   {pic:'☀️',q:'Do you like summer?',yn:'👍',a:'Yes, I do. I like {summer}.'},
-   {pic:'☀️',q:'Do you like summer?',yn:'👎',a:"No, I don't. I don't like {summer}."},
-   {pic:'👦🏊',q:'Does he like swimming?',yn:'👍',a:'Yes, {he} {does}. He likes swimming.'},
-   {pic:'👦🏊',q:'Does he like swimming?',yn:'👎',a:"No, {he} {doesn't}. He doesn't like swimming."},
-   {pic:'👧🪁',q:'Does she like flying kites?',yn:'👍',a:'Yes, {she} {does}. She likes flying kites.'},
-   {pic:'👧🪁',q:'Does she like flying kites?',yn:'👎',a:"No, {she} {doesn't}. She doesn't like flying kites."},
-  ]},
- {id:'can', color:'var(--c4)', emoji:'🎹', title:'Can you play ~?', ko:'~할 수 있니?', page:'DSB1 90~91p',
-  tip:'💡 Can you ~? = ~할 수 있니?<br>⭕ 할 수 있어: <b>Yes, I can.</b><br>❌ 할 수 없어: <b>No, I can\'t.</b>',
-  pool:['tennis','piano'],
-  items:[
-   {pic:'🎾',q:'Can you play tennis?',yn:'👍',a:'Yes, I {can}. I can play tennis.'},
-   {pic:'🎾',q:'Can you play tennis?',yn:'👎',a:"No, I {can't}. I can't play tennis."},
-   {pic:'🎹',q:'Can you play the piano?',yn:'👍',a:'Yes, I {can}. I can play the piano.'},
-   {pic:'🎹',q:'Can you play the piano?',yn:'👎',a:"No, I {can't}. I can't play the piano."},
-  ]},
- {id:'much', color:'var(--c3)', emoji:'💰', title:'How much is it?', ko:'얼마예요?', page:'DSB2 42~43p',
-  tip:'💡 지금 가격(세일 중인 가격): <b>How much is it? / How much are they?</b><br>💡 세일하기 전 가격: <b>How much was it? / How much were they?</b><br>🧸 하나면 is / was, 👢 두 개(짝)면 are / were',
-  pool:['11','18','30','45'],
-  items:[
-   {pic:'🧸',tag:'18$ ➜ 11$',q:'I want a doll. How much is it?',a:"It's {11} dollars. It's on sale."},
-   {pic:'🧸',tag:'18$ ➜ 11$',q:'How much was it?',a:'It {was} {18} dollars before.'},
-   {pic:'👢',tag:'45$ ➜ 30$',q:'I want boots. How much are they?',a:"They're {30} dollars. It's on sale."},
-   {pic:'👢',tag:'45$ ➜ 30$',q:'How much were they?',a:'They {were} {45} dollars before.'},
-  ]},
- {id:'eat', color:'var(--c2)', emoji:'🍕', title:'What did you eat?', ko:'뭐 먹었니?', page:'DSB2 90~91p',
-  tip:'💡 eat ➜ <b>ate</b> : 먹었다<br>💡 drink ➜ <b>drank</b> : 마셨다',
-  pool:['salad','milk','pizza','water'],
-  items:[
-   {pic:'🥗',q:'What did you eat?',a:'I {ate} some {salad}.'},
-   {pic:'🥛',q:'What did you drink?',a:'I {drank} some {milk}.'},
-   {pic:'🍕',q:'What did you eat?',a:'I {ate} some {pizza}.'},
-   {pic:'💧',q:'What did you drink?',a:'I {drank} some {water}.'},
-  ]},
- {id:'doing', color:'var(--c5)', emoji:'🎮', title:'What are you doing?', ko:'뭐 하고 있니?', page:'DSB3 42~43p',
-  tip:'💡 <b>~ing</b> : ~하는 중이에요.<br>💡 뒤에 오는 말을 보고 알맞은 행동 단어를 넣어요.<br>water ➜ drinking, sandwich ➜ eating, video games ➜ playing, medicine ➜ taking',
-  pool:['drinking','eating','playing','taking','laughing','swimming'],
-  items:[
-   {pic:'🥤',q:'What are you doing?',a:'I am {drinking} water.'},
-   {pic:'🥪',q:'What are you doing?',a:'I am {eating} a sandwich.'},
-   {pic:'🎮',q:'What is she doing?',a:'She is {playing} video games.'},
-   {pic:'💊',q:'What is she doing?',a:'She is {taking} medicine.'},
-   {pic:'😂',q:'What is he doing?',a:'He is {laughing}.'},
-   {pic:'🏊',q:'What are they doing?',a:'They are {swimming}.'},
-  ]},
-];
-const ALT = {
-  he:['she','I'], she:['he','I'], does:['do','is'], "doesn't":["don't","isn't"],
-  can:["can't",'do'], "can't":['can',"don't"], was:['were','is'], were:['was','are'],
-  ate:['eat','drank'], drank:['drink','ate']
-};
 const STICKERS=['🦖','🚀','🦄','🐯','🐬','🌈','🏆','🦁','🐼','🛸','🐙','👑','🍦','⚽','🦕','🐉','🎸','🌟','🦊','🎉'];
 const PER_STICKER=10;
 const PRAISE=['참 잘했어요! 🎉','최고야! 👍','멋져요! 🌟','대단해! 💪','완벽해! 🏆','Great job! 😆'];
@@ -160,6 +102,24 @@ const PRAISE=['참 잘했어요! 🎉','최고야! 👍','멋져요! 🌟','대�
 let S={stars:0,done:{}};
 try{const r=localStorage.getItem('suho_dt');if(r)S=Object.assign(S,JSON.parse(r));}catch(e){}
 function save(){try{localStorage.setItem('suho_dt',JSON.stringify(S));}catch(e){}}
+
+/* ===================== 시험 세트 (data/sets/*.json → data/content.js) ===================== */
+const SETS=(window.DT_SETS||[]).slice();
+let SET=null,UNITS=[],ALT={},VOCAB=[],VGROUPS=[],SS={vdone:{},wrong:[]};
+const VG_ICONS=['🍎','🍌','🍇','🍓','🍊','🍉','🍒','🥝'],VG_COLORS=['var(--c1)','var(--c4)','var(--c3)','var(--c2)'];
+function useSet(id){
+  SET=SETS.find(x=>x.id===id)||SETS[SETS.length-1]||{id:'none',title:'',ko:'',units:[],alt:{},vocab:[]};
+  UNITS=SET.units||[];ALT=SET.alt||{};VOCAB=SET.vocab||[];
+  VGROUPS=[];const n=VOCAB.length;
+  for(let a=0,k=0;a<n;a+=9,k++)VGROUPS.push({name:(k+1)+'묶음',range:[a,Math.min(a+9,n)],color:VG_COLORS[k%VG_COLORS.length],icon:VG_ICONS[k%VG_ICONS.length]});
+  if(VGROUPS.length>1)VGROUPS.push({name:'전체 '+n+'개',range:[0,n],color:'var(--c5)',icon:'🧺'});
+  S.sets=S.sets||{};SS=S.sets[SET.id]=S.sets[SET.id]||{vdone:{},wrong:[]};
+  S.set=SET.id;save();
+}
+// 예전 기록(세트 구분 없던 시절)은 첫 세트로 옮김
+if(S.vdone||S.wrong){S.sets=S.sets||{};S.sets['2026-11-dsb1']={vdone:S.vdone||{},wrong:S.wrong||[]};delete S.vdone;delete S.wrong;save();}
+// 새 시험 세트가 추가되면 한 번은 자동으로 그 세트로 바꿔 줌
+{const latest=SETS[SETS.length-1];if(latest&&!(S.seen||[]).includes(latest.id)){S.seen=SETS.map(x=>x.id);useSet(latest.id);}else useSet(S.set);}
 
 /* ===================== 소리 ===================== */
 let AC=null;
@@ -258,15 +218,31 @@ function home(){
   const st=Math.floor(S.stars/PER_STICKER);
   $('#app').innerHTML=topbar('수호의 영어 DT 대모험 🗺️')+
   `<div class="hero"><div class="face">🦖</div><div><h1>안녕, 수호야! 오늘도 영어 모험 떠나볼까?</h1><p>문제를 맞히면 ⭐을 받아요. ⭐ ${PER_STICKER}개마다 스티커가 하나씩 생겨요! (지금 스티커 ${Math.min(st,STICKERS.length)}개)</p></div></div>
+  ${setBar()}
   <div class="grid">`+
   UNITS.map((u,i)=>{const d=(S.done[u.id]||[]).length;return `<button class="tile" style="background:${u.color}" onclick="unitMenu(${i})"><div><div class="big">${u.emoji}</div><div class="t en">${u.title}</div><div class="s">${u.ko} · ${u.page}</div></div><div class="prog">⭐ ${d} / ${u.items.length}</div></button>`}).join('')+
-  `<button class="tile" style="background:linear-gradient(135deg,#4AA8FF,#4CC38A)" onclick="vocabHome()"><div><div class="big">🔤</div><div class="t">단어 암기 (27개)</div><div class="s">영어 ➜ 한글, 한글 ➜ 영어 차근차근</div></div><div class="prog">🏅 단계별 5단계</div></button>
+  (VOCAB.length?`<button class="tile" style="background:linear-gradient(135deg,#4AA8FF,#4CC38A)" onclick="vocabHome()"><div><div class="big">🔤</div><div class="t">단어 암기 (${VOCAB.length}개)</div><div class="s">영어 ➜ 한글, 한글 ➜ 영어 차근차근</div></div><div class="prog">🏅 단계별 5단계</div></button>`:'')+`
    <button class="tile" style="background:linear-gradient(135deg,#FF7A59,#B07CFF)" onclick="challenge(10)"><div><div class="big">🏆</div><div class="t">실전 DT 도전!</div><div class="s">랜덤 10문제 · 시험처럼 풀어보기</div></div><div class="prog">⭐ 보너스 별</div></button>
    <button class="tile" style="background:#7B6A5E" onclick="stickers()"><div><div class="big">📒</div><div class="t">스티커 북</div><div class="s">모은 스티커 구경하기</div></div><div class="prog">${Math.min(st,STICKERS.length)} / ${STICKERS.length}</div></button>
   </div>
   <div class="hint">📌 탭 S7 팁: 크롬/삼성 인터넷 메뉴에서 <b>'홈 화면에 추가'</b>를 누르면 앱처럼 바로 열 수 있어요. 🔊 버튼을 누르면 원어민 발음으로 읽어줘요.<br><button class="tg" style="margin:6px 0" onclick="ttsCheck()">🔊 소리 점검</button> <span id="ttsinfo">영어로 읽어주지 않으면 눌러 보세요.</span><br>📐 화면이 크거나 작으면 위쪽 <b>－ / ＋</b> 버튼으로 조절하세요. 가운데 %를 누르면 자동 맞춤으로 돌아가요.</div>`;
 }
 
+
+/* ===================== 시험 고르기 ===================== */
+function setLabel(x){return `${x.ko||''} <span class="en" style="color:var(--sub);font-size:.8em">${x.title||''}</span>`;}
+function setBar(){
+  return `<div class="tipbox" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">📚 지금 공부하는 시험: <b>${setLabel(SET)}</b>
+   ${SETS.length>1?`<button class="tg" style="margin-left:auto" onclick="setPicker()">🔁 다른 시험 고르기 (${SETS.length}개)</button>`:''}</div>`;
+}
+function setPicker(){
+  stopTalk();
+  $('#app').innerHTML=topbar('📚 어떤 시험을 공부할까?','home()')+
+  `<div class="grid">`+SETS.slice().reverse().map(x=>{
+    const n=(x.units||[]).reduce((s,u)=>s+u.items.length,0),d=(x.units||[]).reduce((s,u)=>s+((S.done[u.id]||[]).length),0);
+    return `<button class="tile" style="background:${x.id===SET.id?'linear-gradient(135deg,#FF7A59,#B07CFF)':'#7B6A5E'}" onclick="useSet('${x.id}');home()"><div><div class="big">${x.id===SET.id?'📖':'📕'}</div><div class="t">${x.ko||x.title}</div><div class="s en">${x.title||''}</div><div class="s">문장 ${n}문제 · 단어 ${(x.vocab||[]).length}개</div></div><div class="prog">⭐ ${d} / ${n}${x.id===SET.id?' · 지금 공부 중':''}</div></button>`;
+  }).join('')+`</div>`;
+}
 /* ===================== 단원 메뉴 ===================== */
 function unitMenu(i){
   const u=UNITS[i];
@@ -355,7 +331,7 @@ function qEnd(){
    <h1 style="font-size:44px;font-weight:400;margin:10px 0">${n}문제 중 ${s}문제를 한 번에 맞혔어요!</h1>
    <p style="font-size:26px;color:var(--sub)">${r>=.9?'DT 시험 준비 완벽! 🏆':r>=.6?'거의 다 왔어요! 한 번 더 하면 만점! 💪':'천천히 다시 해보면 금방 잘할 수 있어요 😊'}</p>
    <div class="nav" style="justify-content:center"><button class="btn b1" onclick="${QZ.challenge?'challenge('+n+')':'QZ.idx=0;QZ.score=0;QZ.list=shuffle(QZ.list);qStep()'}">🔁 다시 하기</button>
-   ${QZ.challenge?`<button class="btn b5" onclick="challenge(26)">🔥 전체 26문제 도전</button>`:''}
+   ${QZ.challenge?`<button class="btn b5" onclick="challenge(${UNITS.reduce((s,u)=>s+u.items.length,0)})">🔥 전체 ${UNITS.reduce((s,u)=>s+u.items.length,0)}문제 도전</button>`:''}
    <button class="btn b4" onclick="home()">🏠 처음으로</button></div></div>`;
 }
 
@@ -518,45 +494,9 @@ function stickers(){
 }
 let rstArm=false;
 function resetAll(){const b=$('#rst');if(!rstArm){rstArm=true;b.textContent='정말 초기화할까요? 한 번 더 누르세요';b.style.background='var(--bad)';setTimeout(()=>{rstArm=false;if(b.isConnected){b.textContent='🗑️ 기록 초기화 (부모님용)';b.style.background='';}},3000);return;}
-  S={stars:0,done:{}};save();rstArm=false;stickers();}
+  const keep=S.set;S={stars:0,done:{}};useSet(keep);rstArm=false;stickers();}
 
 window.addEventListener('resize',refit);
-/* ===================== 단어 암기 (DT REVIEW VOCAB LIST) ===================== */
-const VOCAB=[
- {en:'fifteen',ko:'15 (열다섯)',pic:'1️⃣5️⃣'},
- {en:'run-ran',ko:'뛰다',pic:'🏃',past:'뛰었다'},
- {en:'count-counted',ko:'숫자를 세다',pic:'🔢',past:'숫자를 셌다'},
- {en:'catch-caught',ko:'잡다',pic:'🧤',past:'잡았다'},
- {en:'sell-sold',ko:'판매하다',pic:'🏪',past:'팔았다'},
- {en:'grow-grew',ko:'자라나다',pic:'🌱',past:'자랐다'},
- {en:'growl',ko:'으르렁거리다',pic:'🐻'},
- {en:'grant-granted',ko:'(소원 등을) 들어주다',pic:'🌠',past:'들어주었다'},
- {en:'fly-flew',ko:'날다',pic:'🕊️',past:'날았다'},
- {en:'blow-blew',ko:'바람 등을 입으로 불다',pic:'🌬️',past:'불었다'},
- {en:'move',ko:'움직이다',pic:'🚚'},
- {en:'plant',ko:'심다',pic:'🪴'},
- {en:'stay',ko:'머무르다',pic:'🏠'},
- {en:'behind',ko:'뒤에',pic:'🫣'},
- {en:'stretch-stretched',ko:'기지개를 펴다',pic:'🙆',past:'기지개를 폈다'},
- {en:'foolish',ko:'어리석은',pic:'🤪',same:'silly'},
- {en:'silly',ko:'어리석은',pic:'🙃',same:'foolish'},
- {en:'nice',ko:'좋은, 착한',pic:'😊'},
- {en:'wise',ko:'현명한',pic:'🦉'},
- {en:'cheap',ko:'저렴한',pic:'🪙'},
- {en:'expensive',ko:'비싼',pic:'💎'},
- {en:'musical instrument',ko:'악기',pic:'🎻'},
- {en:'piano',ko:'피아노',pic:'🎹'},
- {en:'drum',ko:'드럼',pic:'🥁'},
- {en:'soccer',ko:'축구',pic:'⚽'},
- {en:'flute',ko:'플루트',pic:'🪈'},
- {en:'bridge',ko:'다리',pic:'🌉'},
-];
-const VGROUPS=[
- {name:'1묶음',range:[0,9],color:'var(--c1)',icon:'🍎'},
- {name:'2묶음',range:[9,18],color:'var(--c4)',icon:'🍌'},
- {name:'3묶음',range:[18,27],color:'var(--c3)',icon:'🍇'},
- {name:'전체 27개',range:[0,27],color:'var(--c5)',icon:'🧺'},
-];
 const VMODES=[
  {id:'card',icon:'🃏',name:'단어 카드',desc:'카드를 뒤집으며 영어와 뜻을 익혀요'},
  {id:'ek',icon:'🇺🇸➜🇰🇷',name:'영어 ➜ 한글',desc:'영어 단어를 보고 뜻을 골라요'},
@@ -564,24 +504,23 @@ const VMODES=[
  {id:'sp',icon:'🔤',name:'철자 맞추기',desc:'알파벳 조각을 순서대로 눌러요'},
  {id:'wr',icon:'✏️',name:'펜으로 쓰기',desc:'뜻을 보고 S펜으로 영어를 써요'},
 ];
-S.vdone=S.vdone||{}; S.wrong=S.wrong||[];
 const spellOut=en=>en.replace(/-/g,', ');
 function sayKo(t){speakList([{text:String(t).replace(/[()]/g,' '),lang:'ko-KR',rate:.95}]);}
 function koFull(v){return v.ko+(v.past?` <span style="font-size:.6em;color:var(--sub)">(과거: ${v.past})</span>`:'');}
 function enFull(v){const p=v.en.split('-');return p.length>1?`${p[0]} <span style="color:var(--sub)">➜</span> ${p[1]}`:v.en;}
-function addWrong(i){if(!S.wrong.includes(i)){S.wrong.push(i);save();}}
-function rmWrong(i){S.wrong=S.wrong.filter(x=>x!==i);save();}
-function vgList(g){if(g==='wrong')return S.wrong.slice();const [a,b]=VGROUPS[g].range;return Array.from({length:b-a},(_,k)=>a+k);}
+function addWrong(i){if(!SS.wrong.includes(i)){SS.wrong.push(i);save();}}
+function rmWrong(i){SS.wrong=SS.wrong.filter(x=>x!==i);save();}
+function vgList(g){if(g==='wrong')return SS.wrong.slice();const [a,b]=VGROUPS[g].range;return Array.from({length:b-a},(_,k)=>a+k);}
 function vgName(g){return g==='wrong'?'❗ 틀린 단어 다시':VGROUPS[g].icon+' '+VGROUPS[g].name;}
 
 function vocabHome(){
   stopTalk();
-  $('#app').innerHTML=topbar('🔤 단어 암기 <span style="font-size:20px;color:var(--sub)">DT REVIEW VOCAB</span>','home()')+
+  $('#app').innerHTML=topbar(`🔤 단어 암기 <span style="font-size:20px;color:var(--sub)">${SET.vocabTitle||''}</span>`,'home()')+
   `<div class="tipbox">💡 한 묶음씩 <b>1단계 ➜ 5단계</b> 순서로 해 보세요. 카드로 먼저 익히고, 고르기, 철자, 쓰기 순서로 점점 어려워져요!<br>💡 <b>run ➜ ran</b> 처럼 화살표가 있는 단어는 <b>현재 ➜ 과거</b>예요. (ran = 뛰었다)</div>
   <div class="grid">`+
-  VGROUPS.map((g,i)=>{const n=VMODES.filter(m=>(S.vdone[i+':'+m.id])).length;const [a,b]=g.range;
+  VGROUPS.map((g,i)=>{const n=VMODES.filter(m=>(SS.vdone[i+':'+m.id])).length;const [a,b]=g.range;
     return `<button class="tile" style="background:${g.color}" onclick="vocabGroup(${i})"><div><div class="big">${g.icon}</div><div class="t">${g.name}</div><div class="s en">${VOCAB.slice(a,Math.min(b,a+4)).map(v=>v.en.split('-')[0]).join(', ')}...</div></div><div class="prog">완료 단계 ${'🏅'.repeat(n)||'-'} ${n}/5</div></button>`}).join('')+
-  `<button class="tile" style="background:${S.wrong.length?'#FF5A5A':'#C9BBAE'}" onclick="${S.wrong.length?"vocabGroup('wrong')":''}"><div><div class="big">❗</div><div class="t">틀린 단어 다시</div><div class="s">${S.wrong.length?'헷갈렸던 단어만 모아서 연습해요':'아직 틀린 단어가 없어요 👍'}</div></div><div class="prog">${S.wrong.length}개</div></button>
+  `<button class="tile" style="background:${SS.wrong.length?'#FF5A5A':'#C9BBAE'}" onclick="${SS.wrong.length?"vocabGroup('wrong')":''}"><div><div class="big">❗</div><div class="t">틀린 단어 다시</div><div class="s">${SS.wrong.length?'헷갈렸던 단어만 모아서 연습해요':'아직 틀린 단어가 없어요 👍'}</div></div><div class="prog">${SS.wrong.length}개</div></button>
   </div>`;
 }
 function vocabGroup(g){
@@ -589,7 +528,7 @@ function vocabGroup(g){
   $('#app').innerHTML=topbar(vgName(g),'vocabHome()')+
   `<div class="tipbox en" style="font-size:19px">${list.map(i=>`${VOCAB[i].pic} ${VOCAB[i].en}`).join(' · ')}</div>
   <div class="grid">`+
-  VMODES.map((m,k)=>{const done=g!=='wrong'&&S.vdone[g+':'+m.id];
+  VMODES.map((m,k)=>{const done=g!=='wrong'&&SS.vdone[g+':'+m.id];
    return `<button class="tile" style="background:${['var(--c4)','var(--c3)','var(--c2)','var(--c1)','var(--c5)'][k]};${k===2?'color:#5a3d00':''}" onclick="vStart(${JSON.stringify(g)},'${m.id}')"><div><div class="big" style="font-size:40px">${m.icon}</div><div class="t">${k+1}단계 · ${m.name}</div><div class="s">${m.desc}</div></div><div class="prog">${done?'🏅 완료!':'도전!'}</div></button>`}).join('')+
   `</div>`;
 }
@@ -732,14 +671,14 @@ function vWCheck(i){
 }
 function vEnd(){
   const n=VZ.list.length,s=VZ.score;
-  if(VZ.g!=='wrong'&&(VZ.mode==='card'||s/n>=.8)){S.vdone[VZ.g+':'+VZ.mode]=1;save();}
+  if(VZ.g!=='wrong'&&(VZ.mode==='card'||s/n>=.8)){SS.vdone[VZ.g+':'+VZ.mode]=1;save();}
   fanfare();confetti(45);
   const mi=VMODES.findIndex(m=>m.id===VZ.mode);const nextM=VMODES[mi+1];
   const msg=VZ.mode==='card'?`카드 ${n}장을 모두 봤어요! 이제 문제로 확인해 볼까요?`:`${n}개 중 ${s}개를 한 번에 맞혔어요!`;
   $('#app').innerHTML=topbar(vTitle(),`vocabGroup(${JSON.stringify(VZ.g)})`)+
   `<div class="card center"><div class="bigstar">${VZ.mode==='card'?'🏅':s/n>=.9?'⭐⭐⭐':s/n>=.6?'⭐⭐':'⭐'}</div>
    <h1 style="font-size:40px;font-weight:400;margin:10px 0">${msg}</h1>
-   <p style="font-size:24px;color:var(--sub)">${S.wrong.length?`❗ 헷갈린 단어 ${S.wrong.length}개는 '틀린 단어 다시'에 모아 뒀어요.`:'틀린 단어 없이 완벽해요! 🏆'}</p>
+   <p style="font-size:24px;color:var(--sub)">${SS.wrong.length?`❗ 헷갈린 단어 ${SS.wrong.length}개는 '틀린 단어 다시'에 모아 뒀어요.`:'틀린 단어 없이 완벽해요! 🏆'}</p>
    <div class="nav" style="justify-content:center;flex-wrap:wrap">
     <button class="btn b1" onclick="vStart(${JSON.stringify(VZ.g)},'${VZ.mode}')">🔁 다시 하기</button>
     ${nextM?`<button class="btn b3" onclick="vStart(${JSON.stringify(VZ.g)},'${nextM.id}')">다음 단계: ${nextM.name} ▶</button>`:''}

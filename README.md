@@ -3,10 +3,22 @@
 초등 1학년 수호의 영어학원 DT 시험 대비용 학습 웹앱 (갤럭시 탭 S7 + S펜에 맞춤).
 **서비스 주소: https://suho-english-dt.vercel.app** (로그인·설치 필요 없음)
 
-`index.html` 한 파일에 앱 전체가 들어 있어요. 빌드 과정 없이 Vercel 정적 사이트로 배포해요.
+앱 코드는 `index.html`, 시험 내용은 `data/sets/*.json`(시험 하나 = 파일 하나)에 있어요. 빌드 과정 없이 Vercel 정적 사이트로 배포해요.
+
+## 파일 구조
+- `index.html` — 앱 화면·기능 (내용 없음)
+- `data/sets/<세트id>.json` — 시험지 문장·단어 (여기만 고치면 됨)
+- `tools/build_content.py` — 세트 파일 검사 후 `data/content.js`(앱이 읽는 파일)와 `standalone.html`(파일 하나짜리 오프라인용) 생성
+- `CONTENT_GUIDE.md` — 새 시험 자료를 반영하는 순서와 세트 형식
+
+## 새 시험 추가
+1. `data/sets/` 에 세트 JSON 추가 (형식은 `CONTENT_GUIDE.md`)
+2. `python3 tools/build_content.py` (오류 없을 때까지)
+3. main 에 푸시 → 자동 배포. 앱은 새로 추가된 세트를 한 번 자동으로 열고, 홈의 '다른 시험 고르기'로 예전 시험도 다시 볼 수 있어요.
+- 별·스티커는 전체 공통, 단어 암기 단계·틀린 단어는 시험별로 따로 저장돼요.
 
 ## 내용
-- **DT 문장 연습** (DSB1 DT Preview): Do you like ~? / Can you play ~? / How much is it? / What did you eat? / What are you doing? — 5단원 26문제
+- **DT 문장 연습** (2026-11 세트: DSB1 DT Preview): Do you like ~? / Can you play ~? / How much is it? / What did you eat? / What are you doing? — 5단원 26문제
   - 📖 듣고 배우기 · 🧩 단어 고르기 · ✏️ 펜으로 써보기 · 🏆 실전 DT 도전(랜덤 10문제 / 전체 26문제)
 - **단어 암기** (DT REVIEW VOCAB LIST 27개): 9개씩 3묶음 + 전체
   - 🃏 카드 → 영어→한글 → 한글→영어 → 🔤 철자 맞추기 → ✏️ 펜으로 쓰기, ❗ 틀린 단어 다시
