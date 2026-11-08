@@ -64,7 +64,7 @@ button{font-family:inherit;border:none;cursor:pointer;color:inherit}
 .bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--c2),var(--c1));border-radius:99px;transition:width .3s}
 .msg{font-size:28px;text-align:center;min-height:40px;margin-top:10px}
 /* writing */
-.wrapcv{position:relative;margin-top:16px;background:#fff;border-radius:22px;border:3px solid var(--line);overflow:hidden;touch-action:none}
+.wrapcv{-webkit-touch-callout:none;-webkit-user-select:none;position:relative;margin-top:16px;background:#fff;border-radius:22px;border:3px solid var(--line);overflow:hidden;touch-action:none}
 canvas{display:block;width:100%;touch-action:none}
 .tools{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px;align-items:center}
 .tg{background:#fff;border:3px solid var(--line);border-radius:14px;font-size:17px;padding:7px 10px;white-space:nowrap}
@@ -372,9 +372,24 @@ function setupCanvas(){
   cv._W=W;cv._H=H;cv._dpr=dpr;
   applyBoard();
   TOOL='draw';UNDO=[];hoverPt=null;updToolBtns();
+  // [아이패드] 손글씨 입력(Scribble)이 빠르게 이어 쓰는 펜슬 획을 가로채지 않도록
+  //   쓰는 칸 안의 터치 기본 동작을 막아요. (WebKit bug 217430 우회 방법)
+  //   펜 그리기는 아래 Pointer 이벤트로 그대로 처리돼요.
+  if(!cv._touchGuard){
+    const stop=ev=>{if(ev.cancelable)ev.preventDefault();};
+    ['touchstart','touchmove','touchend','touchcancel'].forEach(t=>cv.addEventListener(t,stop,{passive:false}));
+    cv._touchGuard=true;
+  }
+  activeId=null;activeType=null;
   cv.onpointerdown=e=>{
     if(PEN.penOnly&&e.pointerType!=='pen')return;
-    e.preventDefault();cv.setPointerCapture(e.pointerId);
+    if(drawing&&activeId!==null&&e.pointerId!==activeId){
+      // 손 터치로 쓰는 중에 펜이 닿으면: 손 자국은 지우고 펜으로 바꿔요 (손바닥 보호)
+      if(e.pointerType==='pen'&&activeType!=='pen'){const d=UNDO.pop();if(d)inkCtx.putImageData(d,0,0);}
+      else return; // 두 번째 손가락 등은 무시
+    }
+    e.preventDefault();try{cv.setPointerCapture(e.pointerId);}catch(_){}
+    activeId=e.pointerId;activeType=e.pointerType;
     pushUndo();
     // S펜 옆 버튼을 누른 채 쓰거나(펜 버튼) 지우개 모드면 지우기
     erasing=TOOL==='erase'||(e.pointerType==='pen'&&((e.buttons&2)||(e.buttons&32)));
@@ -382,12 +397,16 @@ function setupCanvas(){
   cv.onpointermove=e=>{
     if(PEN.penOnly&&e.pointerType!=='pen')return;
     if(!drawing){if(TOOL==='erase'){hoverPt=pt(e);redraw();}return;}
-    const evs=e.getCoalescedEvents?e.getCoalescedEvents():[e];
+    if(e.pointerId!==activeId)return; // 지금 쓰는 펜(손가락)의 움직임만
+    let evs=e.getCoalescedEvents?e.getCoalescedEvents():[];
+    if(!evs||!evs.length)evs=[e];
     evs.forEach(ev=>{const p=pt(ev);line(last,p);last=p;});hoverPt=last;redraw();};
-  const end=()=>{drawing=false;last=null;erasing=false;};
+  // 지금 쓰는 펜(손가락)이 떨어지거나 취소될 때만 획을 끝내요. 손바닥 터치가 떨어져도 펜 획은 계속돼요.
+  const end=e=>{if(e&&activeId!==null&&e.pointerId!==activeId)return;drawing=false;last=null;erasing=false;activeId=null;activeType=null;};
   cv.onpointerup=end;cv.onpointercancel=end;
-  cv.onpointerleave=()=>{end();hoverPt=null;redraw();};
+  cv.onpointerleave=e=>{if(e.pointerId===activeId||!drawing){end(e);hoverPt=null;redraw();}};
 }
+let activeId=null,activeType=null;
 let TOOL='draw',UNDO=[],erasing=false,hoverPt=null;
 const ERASER_W=34;
 function pushUndo(){try{UNDO.push(inkCtx.getImageData(0,0,ink.width,ink.height));if(UNDO.length>25)UNDO.shift();}catch(e){}updToolBtns();}
