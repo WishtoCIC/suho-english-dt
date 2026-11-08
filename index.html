@@ -469,9 +469,9 @@ function wCheck(){
 function wGood(){
   addStar(1);markDone(UNITS[WR.ui].id+':'+WR.k);ding();confetti(22);say(plain(CUR.a));
   $('#wmsg').innerHTML=PRAISE[Math.floor(Math.random()*PRAISE.length)]+' ⭐+1';
-  $('#wbtns').innerHTML='';
-  const u=UNITS[WR.ui];
-  if(WR.k<u.items.length-1)setTimeout(()=>writeSent(WR.ui,WR.k+1),1700);
+  // 자동으로 넘어가지 않고, 문장을 다 듣고 '다음'을 누를 때까지 기다려요
+  const u=UNITS[WR.ui],last=WR.k>=u.items.length-1;
+  $('#wbtns').innerHTML=`<button class="btn b2" onclick="say(plain(CUR.a))">🔊 다시 듣기</button> <button class="btn b4" onclick="${last?`unitMenu(${WR.ui})`:`writeSent(${WR.ui},${WR.k+1})`}">${last?'끝! 🎉':'다음 문제 ▶'}</button>`;
 }
 
 /* ===================== 스티커 북 ===================== */
@@ -691,7 +691,9 @@ function vWCheck(i){
   WR.checked=true;WR.showAns=true;redraw();say(spellOut(VOCAB[i].en));
   $('#wmsg').innerHTML=ansBanner(VOCAB[i].en.replace('-',' ➜ '))+'<div style="font-size:20px;color:var(--sub)">초록 테두리 글자 안에 내 글씨가 잘 들어갔나요? '+ansToggleBtn()+'</div>';
   $('#wbtns').innerHTML=`<button class="btn b3" id="wOk">⭕ 맞게 썼어요!</button> <button class="btn b1" id="wNo">❌ 틀렸어요</button>`;
-  $('#wOk').onclick=()=>{vRight(i);ding();confetti(18);$('#wbtns').innerHTML='';$('#wmsg').innerHTML=PRAISE[Math.floor(Math.random()*PRAISE.length)]+' ⭐+1';setTimeout(vNext,1300);};
+  $('#wOk').onclick=()=>{vRight(i);ding();confetti(18);say(spellOut(VOCAB[i].en));$('#wmsg').innerHTML=PRAISE[Math.floor(Math.random()*PRAISE.length)]+' ⭐+1';
+    // 자동으로 넘어가지 않고 '다음'을 누를 때까지 기다려요
+    $('#wbtns').innerHTML=`<button class="btn b2" onclick="say(spellOut(VOCAB[${i}].en))">🔊 다시 듣기</button> <button class="btn b4" onclick="vNext()">${VZ.idx<VZ.list.length-1?'다음 단어 ▶':'결과 보기 🎉'}</button>`;};
   $('#wNo').onclick=()=>{addWrong(i);VZ.miss=true;$('#wmsg').innerHTML='괜찮아요! 한 번 더 따라 써 봐요 ✍️';clearCv();WR.checked=false;PEN.trace=true;vWR(VOCAB[i]);VZ.miss=true;};
 }
 function vEnd(){
