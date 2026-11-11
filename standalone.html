@@ -555,8 +555,9 @@ function useSet(id){
   S.set=SET.id;save();
 }
 // 예전 기록(세트 구분 없던 시절)은 첫 세트로 옮김
-if(SS.vdone||SS.wrong){S.sets=S.sets||{};S.sets['2026-11-dsb1']={vdone:SS.vdone||{},wrong:SS.wrong||[]};delete SS.vdone;delete SS.wrong;save();}
-useSet(S.set);
+if(S.vdone||S.wrong){S.sets=S.sets||{};S.sets['2026-11-dsb1']={vdone:S.vdone||{},wrong:S.wrong||[]};delete S.vdone;delete S.wrong;save();}
+// 새 시험 세트가 추가되면 한 번은 자동으로 그 세트로 바꿔 줌
+{const latest=SETS[SETS.length-1];if(latest&&!(S.seen||[]).includes(latest.id)){S.seen=SETS.map(x=>x.id);useSet(latest.id);}else useSet(S.set);}
 
 /* ===================== 소리 ===================== */
 let AC=null;
@@ -952,7 +953,7 @@ function vgName(g){return g==='wrong'?'❗ 틀린 단어 다시':VGROUPS[g].icon
 
 function vocabHome(){
   stopTalk();
-  $('#app').innerHTML=topbar('🔤 단어 암기 <span style="font-size:20px;color:var(--sub)">${SET.vocabTitle||''}</span>','home()')+
+  $('#app').innerHTML=topbar(`🔤 단어 암기 <span style="font-size:20px;color:var(--sub)">${SET.vocabTitle||''}</span>`,'home()')+
   `<div class="tipbox">💡 한 묶음씩 <b>1단계 ➜ 5단계</b> 순서로 해 보세요. 카드로 먼저 익히고, 고르기, 철자, 쓰기 순서로 점점 어려워져요!<br>💡 <b>run ➜ ran</b> 처럼 화살표가 있는 단어는 <b>현재 ➜ 과거</b>예요. (ran = 뛰었다)</div>
   <div class="grid">`+
   VGROUPS.map((g,i)=>{const n=VMODES.filter(m=>(SS.vdone[i+':'+m.id])).length;const [a,b]=g.range;
