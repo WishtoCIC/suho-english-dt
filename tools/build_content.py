@@ -14,11 +14,13 @@ ROOT = Path(__file__).resolve().parent.parent
 SETS_DIR = ROOT / "data" / "sets"
 COLORS = {"var(--c1)", "var(--c2)", "var(--c3)", "var(--c4)", "var(--c5)"}
 BLANK = re.compile(r"\{([^}]+)\}")
+# 이미 별 기록이 쌓여서 단원 id 를 바꾸지 않는 예전 세트 (접두사 경고 제외)
+LEGACY_UNIT_IDS = {"2026-11-dsb1"}
 
 
 def check(sets):
     errors, warns = [], []
-    seen_set, seen_unit = set(), set()
+    seen_set, seen_unit, seen_prefix = set(), set(), {}
     for s in sets:
         sid = s.get("id", "?")
         where = f"[{sid}]"
@@ -41,6 +43,17 @@ def check(sets):
             if u.get("id") in seen_unit:
                 errors.append(f"{uw}: 단원 id 가 다른 단원과 겹침 (별 기록이 섞임)")
             seen_unit.add(u.get("id"))
+            uid = str(u.get("id") or "")
+            if "-" not in uid:
+                if sid not in LEGACY_UNIT_IDS:
+                    warns.append(f"{uw}: 단원 id 에 세트 접두사가 없음 — 'd12-{uid or 'like'}' 처럼 "
+                                 f"세트마다 다른 접두사를 붙이세요 (별 기록이 단원 id 로 저장됨)")
+            else:
+                prefix = uid.split("-", 1)[0]
+                owner = seen_prefix.setdefault(prefix, sid)
+                if owner != sid:
+                    warns.append(f"{uw}: 접두사 '{prefix}-' 를 세트 [{owner}] 가 이미 쓰고 있음 — "
+                                 f"이 세트만의 접두사로 바꾸세요")
             if u.get("color") not in COLORS:
                 errors.append(f"{uw}: color 는 {sorted(COLORS)} 중 하나")
             pool = u.get("pool", [])
