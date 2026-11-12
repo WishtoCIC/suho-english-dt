@@ -528,6 +528,129 @@ window.DT_SETS = [
     "pic": "🌉"
    }
   ]
+ },
+ {
+  "id": "2026-11-dsb1-l9",
+  "title": "DSB1 Lesson9: The Silly Wishes",
+  "ko": "Lesson 9 단어 시험",
+  "added": "2026-11-12",
+  "source": [
+   "DSB PRETEST.pdf"
+  ],
+  "units": [],
+  "vocabTitle": "DSB1 Lesson9 단어 PRETEST (20개)",
+  "vocab": [
+   {
+    "en": "lazy",
+    "ko": "게으른",
+    "pic": "😴"
+   },
+   {
+    "en": "dinner",
+    "ko": "저녁 식사",
+    "pic": "🍝"
+   },
+   {
+    "en": "wish",
+    "ko": "소원",
+    "pic": "🌠"
+   },
+   {
+    "en": "cupboard",
+    "ko": "찬장",
+    "pic": "🗄️"
+   },
+   {
+    "en": "fridge",
+    "ko": "냉장고",
+    "pic": "🧊"
+   },
+   {
+    "en": "stomach",
+    "ko": "배, 복부",
+    "pic": "🫃"
+   },
+   {
+    "en": "foolish",
+    "ko": "어리석은 (f로 시작)",
+    "pic": "🙃"
+   },
+   {
+    "en": "plate",
+    "ko": "접시",
+    "pic": "🍽️"
+   },
+   {
+    "en": "silly",
+    "ko": "어리석은 (s로 시작)",
+    "pic": "🤪"
+   },
+   {
+    "en": "meal",
+    "ko": "식사",
+    "pic": "🍱"
+   },
+   {
+    "en": "waste-wasted",
+    "ko": "낭비하다",
+    "pic": "🗑️",
+    "past": "낭비했다"
+   },
+   {
+    "en": "return-returned",
+    "ko": "돌아오다, 돌려주다",
+    "pic": "🔙",
+    "past": "돌아왔다, 돌려줬다"
+   },
+   {
+    "en": "clean-cleaned",
+    "ko": "청소하다, 손질하다",
+    "pic": "🧹",
+    "past": "청소했다, 손질했다"
+   },
+   {
+    "en": "cook-cooked",
+    "ko": "요리하다",
+    "pic": "👩‍🍳",
+    "past": "요리했다"
+   },
+   {
+    "en": "grant-granted",
+    "ko": "(소원 등을) 들어주다",
+    "pic": "🧞",
+    "past": "들어줬다"
+   },
+   {
+    "en": "disappear-disappeared",
+    "ko": "사라지다",
+    "pic": "💨",
+    "past": "사라졌다"
+   },
+   {
+    "en": "growl-growled",
+    "ko": "꼬르륵 소리가 나다",
+    "pic": "🥣",
+    "past": "꼬르륵 소리가 났다"
+   },
+   {
+    "en": "realize-realized",
+    "ko": "깨닫다",
+    "pic": "💡",
+    "past": "깨달았다"
+   },
+   {
+    "en": "laugh-laughed",
+    "ko": "웃다",
+    "pic": "😂",
+    "past": "웃었다"
+   },
+   {
+    "en": "appear-appeared",
+    "ko": "나타나다",
+    "pic": "✨",
+    "past": "나타났다"
+   }
+  ]
  }
 ];
 </script>
@@ -549,7 +672,8 @@ function useSet(id){
   SET=SETS.find(x=>x.id===id)||SETS[SETS.length-1]||{id:'none',title:'',ko:'',units:[],alt:{},vocab:[]};
   UNITS=SET.units||[];ALT=SET.alt||{};VOCAB=SET.vocab||[];
   VGROUPS=[];const n=VOCAB.length;
-  for(let a=0,k=0;a<n;a+=9,k++)VGROUPS.push({name:(k+1)+'묶음',range:[a,Math.min(a+9,n)],color:VG_COLORS[k%VG_COLORS.length],icon:VG_ICONS[k%VG_ICONS.length]});
+  const gc=Math.max(1,Math.ceil(n/9)),gs=Math.ceil(n/gc);
+  for(let a=0,k=0;a<n;a+=gs,k++)VGROUPS.push({name:(k+1)+'묶음',range:[a,Math.min(a+gs,n)],color:VG_COLORS[k%VG_COLORS.length],icon:VG_ICONS[k%VG_ICONS.length]});
   if(VGROUPS.length>1)VGROUPS.push({name:'전체 '+n+'개',range:[0,n],color:'var(--c5)',icon:'🧺'});
   S.sets=S.sets||{};SS=S.sets[SET.id]=S.sets[SET.id]||{vdone:{},wrong:[]};
   S.set=SET.id;save();
@@ -660,7 +784,7 @@ function home(){
   <div class="grid">`+
   UNITS.map((u,i)=>{const d=(S.done[u.id]||[]).length;return `<button class="tile" style="background:${u.color}" onclick="unitMenu(${i})"><div><div class="big">${u.emoji}</div><div class="t en">${u.title}</div><div class="s">${u.ko} · ${u.page}</div></div><div class="prog">⭐ ${d} / ${u.items.length}</div></button>`}).join('')+
   (VOCAB.length?`<button class="tile" style="background:linear-gradient(135deg,#4AA8FF,#4CC38A)" onclick="vocabHome()"><div><div class="big">🔤</div><div class="t">단어 암기 (${VOCAB.length}개)</div><div class="s">영어 ➜ 한글, 한글 ➜ 영어 차근차근</div></div><div class="prog">🏅 단계별 5단계</div></button>`:'')+`
-   <button class="tile" style="background:linear-gradient(135deg,#FF7A59,#B07CFF)" onclick="challenge(10)"><div><div class="big">🏆</div><div class="t">실전 DT 도전!</div><div class="s">랜덤 10문제 · 시험처럼 풀어보기</div></div><div class="prog">⭐ 보너스 별</div></button>
+   ${UNITS.length?`<button class="tile" style="background:linear-gradient(135deg,#FF7A59,#B07CFF)" onclick="challenge(10)"><div><div class="big">🏆</div><div class="t">실전 DT 도전!</div><div class="s">랜덤 10문제 · 시험처럼 풀어보기</div></div><div class="prog">⭐ 보너스 별</div></button>`:''}
    <button class="tile" style="background:#7B6A5E" onclick="stickers()"><div><div class="big">📒</div><div class="t">스티커 북</div><div class="s">모은 스티커 구경하기</div></div><div class="prog">${Math.min(st,STICKERS.length)} / ${STICKERS.length}</div></button>
   </div>
   <div class="hint">📌 탭 S7 팁: 크롬/삼성 인터넷 메뉴에서 <b>'홈 화면에 추가'</b>를 누르면 앱처럼 바로 열 수 있어요. 🔊 버튼을 누르면 원어민 발음으로 읽어줘요.<br><button class="tg" style="margin:6px 0" onclick="ttsCheck()">🔊 소리 점검</button> <span id="ttsinfo">영어로 읽어주지 않으면 눌러 보세요.</span><br>📐 화면이 크거나 작으면 위쪽 <b>－ / ＋</b> 버튼으로 조절하세요. 가운데 %를 누르면 자동 맞춤으로 돌아가요.</div>`;
@@ -678,7 +802,7 @@ function setPicker(){
   $('#app').innerHTML=topbar('📚 어떤 시험을 공부할까?','home()')+
   `<div class="grid">`+SETS.slice().reverse().map(x=>{
     const n=(x.units||[]).reduce((s,u)=>s+u.items.length,0),d=(x.units||[]).reduce((s,u)=>s+((S.done[u.id]||[]).length),0);
-    return `<button class="tile" style="background:${x.id===SET.id?'linear-gradient(135deg,#FF7A59,#B07CFF)':'#7B6A5E'}" onclick="useSet('${x.id}');home()"><div><div class="big">${x.id===SET.id?'📖':'📕'}</div><div class="t">${x.ko||x.title}</div><div class="s en">${x.title||''}</div><div class="s">문장 ${n}문제 · 단어 ${(x.vocab||[]).length}개</div></div><div class="prog">⭐ ${d} / ${n}${x.id===SET.id?' · 지금 공부 중':''}</div></button>`;
+    return `<button class="tile" style="background:${x.id===SET.id?'linear-gradient(135deg,#FF7A59,#B07CFF)':'#7B6A5E'}" onclick="useSet('${x.id}');home()"><div><div class="big">${x.id===SET.id?'📖':'📕'}</div><div class="t">${x.ko||x.title}</div><div class="s en">${x.title||''}</div><div class="s">${n?`문장 ${n}문제 · `:''}단어 ${(x.vocab||[]).length}개</div></div><div class="prog">${n?`⭐ ${d} / ${n}`:'🔤 단어만'}${x.id===SET.id?' · 지금 공부 중':''}</div></button>`;
   }).join('')+`</div>`;
 }
 /* ===================== 단원 메뉴 ===================== */

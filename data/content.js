@@ -433,5 +433,128 @@ window.DT_SETS = [
     "pic": "🌉"
    }
   ]
+ },
+ {
+  "id": "2026-11-dsb1-l9",
+  "title": "DSB1 Lesson9: The Silly Wishes",
+  "ko": "Lesson 9 단어 시험",
+  "added": "2026-11-12",
+  "source": [
+   "DSB PRETEST.pdf"
+  ],
+  "units": [],
+  "vocabTitle": "DSB1 Lesson9 단어 PRETEST (20개)",
+  "vocab": [
+   {
+    "en": "lazy",
+    "ko": "게으른",
+    "pic": "😴"
+   },
+   {
+    "en": "dinner",
+    "ko": "저녁 식사",
+    "pic": "🍝"
+   },
+   {
+    "en": "wish",
+    "ko": "소원",
+    "pic": "🌠"
+   },
+   {
+    "en": "cupboard",
+    "ko": "찬장",
+    "pic": "🗄️"
+   },
+   {
+    "en": "fridge",
+    "ko": "냉장고",
+    "pic": "🧊"
+   },
+   {
+    "en": "stomach",
+    "ko": "배, 복부",
+    "pic": "🫃"
+   },
+   {
+    "en": "foolish",
+    "ko": "어리석은 (f로 시작)",
+    "pic": "🙃"
+   },
+   {
+    "en": "plate",
+    "ko": "접시",
+    "pic": "🍽️"
+   },
+   {
+    "en": "silly",
+    "ko": "어리석은 (s로 시작)",
+    "pic": "🤪"
+   },
+   {
+    "en": "meal",
+    "ko": "식사",
+    "pic": "🍱"
+   },
+   {
+    "en": "waste-wasted",
+    "ko": "낭비하다",
+    "pic": "🗑️",
+    "past": "낭비했다"
+   },
+   {
+    "en": "return-returned",
+    "ko": "돌아오다, 돌려주다",
+    "pic": "🔙",
+    "past": "돌아왔다, 돌려줬다"
+   },
+   {
+    "en": "clean-cleaned",
+    "ko": "청소하다, 손질하다",
+    "pic": "🧹",
+    "past": "청소했다, 손질했다"
+   },
+   {
+    "en": "cook-cooked",
+    "ko": "요리하다",
+    "pic": "👩‍🍳",
+    "past": "요리했다"
+   },
+   {
+    "en": "grant-granted",
+    "ko": "(소원 등을) 들어주다",
+    "pic": "🧞",
+    "past": "들어줬다"
+   },
+   {
+    "en": "disappear-disappeared",
+    "ko": "사라지다",
+    "pic": "💨",
+    "past": "사라졌다"
+   },
+   {
+    "en": "growl-growled",
+    "ko": "꼬르륵 소리가 나다",
+    "pic": "🥣",
+    "past": "꼬르륵 소리가 났다"
+   },
+   {
+    "en": "realize-realized",
+    "ko": "깨닫다",
+    "pic": "💡",
+    "past": "깨달았다"
+   },
+   {
+    "en": "laugh-laughed",
+    "ko": "웃다",
+    "pic": "😂",
+    "past": "웃었다"
+   },
+   {
+    "en": "appear-appeared",
+    "ko": "나타나다",
+    "pic": "✨",
+    "past": "나타났다"
+   }
+  ]
  }
 ];
