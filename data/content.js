@@ -635,9 +635,9 @@ window.DT_SETS = [
    },
    {
     "en": "munch-munched",
-    "ko": "우적우적 씹다",
+    "ko": "아삭아삭 먹다",
     "pic": "🍪",
-    "past": "우적우적 씹었다"
+    "past": "아삭아삭 먹었다"
    },
    {
     "en": "run-ran",
