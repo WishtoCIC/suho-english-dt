@@ -553,7 +553,7 @@ window.DT_SETS = [
    "DSB PRETEST.pdf"
   ],
   "units": [],
-  "vocabTitle": "DSB1 Lesson9 단어 PRETEST (20개)",
+  "vocabTitle": "DSB1 Lesson9 (20개)",
   "vocab": [
    {
     "en": "lazy",
@@ -676,7 +676,7 @@ window.DT_SETS = [
    "Epson_20261113173647.pdf"
   ],
   "units": [],
-  "vocabTitle": "DSB1 Lesson10 단어 시험 (20개)",
+  "vocabTitle": "DSB1 Lesson10 (20개)",
   "vocab": [
    {
     "en": "street",
@@ -724,7 +724,7 @@ window.DT_SETS = [
     "pic": "😢"
    },
    {
-    "en": "tooth",
+    "en": "teeth",
     "ko": "치아, 이빨",
     "pic": "🦷"
    },
@@ -976,7 +976,7 @@ function home(){
   ${setBar()}
   <div class="grid">`+
   UNITS.map((u,i)=>{const d=(S.done[u.id]||[]).length;return `<button class="tile" style="background:${u.color}" onclick="unitMenu(${i})"><div><div class="big">${u.emoji}</div><div class="t en">${u.title}</div><div class="s">${u.ko} · ${u.page}</div></div><div class="prog">⭐ ${d} / ${u.items.length}</div></button>`}).join('')+
-  (VOCAB.length?`<button class="tile" style="background:linear-gradient(135deg,#4AA8FF,#4CC38A)" onclick="vocabHome()"><div><div class="big">🔤</div><div class="t">단어 암기 (${VOCAB.length}개)</div><div class="s">영어 ➜ 한글, 한글 ➜ 영어 차근차근</div></div><div class="prog">🏅 단계별 5단계</div></button>`:'')+`
+  (VOCAB.length?`<button class="tile" style="background:linear-gradient(135deg,#4AA8FF,#4CC38A)" onclick="vocabHome()"><div><div class="big">🔤</div><div class="t">Pre-test (${VOCAB.length}개)</div><div class="s">영어 ➜ 한글, 한글 ➜ 영어 차근차근</div></div><div class="prog">🏅 단계별 5단계</div></button>`:'')+`
    ${UNITS.length?`<button class="tile" style="background:linear-gradient(135deg,#FF7A59,#B07CFF)" onclick="challenge(10)"><div><div class="big">🏆</div><div class="t">실전 DT 도전!</div><div class="s">랜덤 10문제 · 시험처럼 풀어보기</div></div><div class="prog">⭐ 보너스 별</div></button>`:''}
    <button class="tile" style="background:#7B6A5E" onclick="stickers()"><div><div class="big">📒</div><div class="t">스티커 북</div><div class="s">모은 스티커 구경하기</div></div><div class="prog">${Math.min(st,STICKERS.length)} / ${STICKERS.length}</div></button>
   </div>
@@ -1270,7 +1270,7 @@ function vgName(g){return g==='wrong'?'❗ 틀린 단어 다시':VGROUPS[g].icon
 
 function vocabHome(){
   stopTalk();
-  $('#app').innerHTML=topbar(`🔤 단어 암기 <span style="font-size:20px;color:var(--sub)">${SET.vocabTitle||''}</span>`,'home()')+
+  $('#app').innerHTML=topbar(`🔤 Pre-test <span style="font-size:20px;color:var(--sub)">${SET.vocabTitle||''}</span>`,'home()')+
   `<div class="tipbox">💡 한 묶음씩 <b>1단계 ➜ 5단계</b> 순서로 해 보세요. 카드로 먼저 익히고, 고르기, 철자, 쓰기 순서로 점점 어려워져요!<br>💡 <b>run ➜ ran</b> 처럼 화살표가 있는 단어는 <b>현재 ➜ 과거</b>예요. (ran = 뛰었다)</div>
   <div class="grid">`+
   VGROUPS.map((g,i)=>{const n=VMODES.filter(m=>(SS.vdone[i+':'+m.id])).length;const [a,b]=g.range;
@@ -1437,7 +1437,7 @@ function vEnd(){
    <div class="nav" style="justify-content:center;flex-wrap:wrap">
     <button class="btn b1" onclick="vStart(${JSON.stringify(VZ.g)},'${VZ.mode}')">🔁 다시 하기</button>
     ${nextM?`<button class="btn b3" onclick="vStart(${JSON.stringify(VZ.g)},'${nextM.id}')">다음 단계: ${nextM.name} ▶</button>`:''}
-    <button class="btn b4" onclick="vocabHome()">🔤 단어 암기 처음으로</button></div></div>`;
+    <button class="btn b4" onclick="vocabHome()">🔤 Pre-test 처음으로</button></div></div>`;
 }
 
 applyZoom();home();

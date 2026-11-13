@@ -443,7 +443,7 @@ window.DT_SETS = [
    "DSB PRETEST.pdf"
   ],
   "units": [],
-  "vocabTitle": "DSB1 Lesson9 단어 PRETEST (20개)",
+  "vocabTitle": "DSB1 Lesson9 (20개)",
   "vocab": [
    {
     "en": "lazy",
@@ -566,7 +566,7 @@ window.DT_SETS = [
    "Epson_20261113173647.pdf"
   ],
   "units": [],
-  "vocabTitle": "DSB1 Lesson10 단어 시험 (20개)",
+  "vocabTitle": "DSB1 Lesson10 (20개)",
   "vocab": [
    {
     "en": "street",
@@ -614,7 +614,7 @@ window.DT_SETS = [
     "pic": "😢"
    },
    {
-    "en": "tooth",
+    "en": "teeth",
     "ko": "치아, 이빨",
     "pic": "🦷"
    },
