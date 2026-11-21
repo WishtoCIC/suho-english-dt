@@ -72,6 +72,10 @@ button{font-family:inherit;border:none;cursor:pointer;color:inherit}
 .ctab td.cb{border-style:dashed;border-color:var(--c1);background:#fff;color:var(--c1)}
 .ctab td.cb.cur{background:#FFE6DE;animation:pulse 1.2s infinite}
 .ctab td.cb.ok{border-style:solid;border-color:var(--ok);background:#DFF7EA;color:var(--ok)}
+.ctab.sm{font-size:21px;border-spacing:5px}
+.ctab.sm th{font-size:15px}
+.ctab.sm th.rh{font-size:17px;padding-right:7px}
+.ctab.sm td{min-width:84px;padding:5px 9px;border-radius:12px}
 /* writing */
 .wrapcv{-webkit-touch-callout:none;-webkit-user-select:none;position:relative;margin-top:16px;background:#fff;border-radius:22px;border:3px solid var(--line);overflow:hidden;touch-action:none}
 canvas{display:block;width:100%;touch-action:none}
@@ -1818,7 +1822,9 @@ const CLEVELS=[
  {id:'see',icon:'📖',name:'보고 외우기',desc:'표를 소리내어 읽어요. 칸을 누르면 읽어줘요',cols:[]},
  {id:'own',icon:'🧩',name:'~의 것 채우기',desc:'맨 오른쪽 소유대명사 칸만 채워요',cols:[3]},
  {id:'mid',icon:'🧩',name:'~의 · ~을 채우기',desc:'가운데 소유격·목적격 두 칸을 채워요',cols:[1,2]},
- {id:'all',icon:'🏆',name:'주격만 보고 다 채우기',desc:'맨 왼쪽만 보고 나머지 세 칸을 전부 채워요',cols:[1,2,3]}
+ {id:'all',icon:'🏆',name:'주격만 보고 다 채우기',desc:'맨 왼쪽만 보고 나머지 세 칸을 전부 채워요',cols:[1,2,3]},
+ {id:'wown',icon:'✏️',name:'~의 것 써보기',desc:'맨 오른쪽 칸을 S펜으로 직접 써요',cols:[3],write:1},
+ {id:'wall',icon:'✏️',name:'전부 써보기',desc:'주격만 보고 나머지 세 칸을 전부 S펜으로 써요',cols:[1,2,3],write:1}
 ];
 let CZ=null;
 function cSay(w){if(w&&w!=='-')say(w);}
@@ -1829,7 +1835,7 @@ function chantHome(){
   `<div class="tipbox">${c.tip||''}</div>
   <div class="grid">`+
   CLEVELS.map((lv,k)=>{const done=SS.cdone[lv.id];
-   return `<button class="tile" style="background:${['var(--c4)','var(--c3)','var(--c2)','var(--c1)'][k]};${k===2?'color:#5a3d00':''}" onclick="cStart('${lv.id}')"><div><div class="big" style="font-size:40px">${lv.icon}</div><div class="t">${k+1}단계 · ${lv.name}</div><div class="s">${lv.desc}</div></div><div class="prog">${done?'🏅 완료!':'도전!'}</div></button>`;}).join('')+
+   return `<button class="tile" style="background:${['var(--c4)','var(--c3)','var(--c2)','var(--c1)','var(--c5)','#7B6A5E'][k]};${k===2?'color:#5a3d00':''}" onclick="cStart('${lv.id}')"><div><div class="big" style="font-size:40px">${lv.icon}</div><div class="t">${k+1}단계 · ${lv.name}</div><div class="s">${lv.desc}</div></div><div class="prog">${done?'🏅 완료!':'도전!'}</div></button>`;}).join('')+
   `</div>`;
 }
 function cStart(id){
@@ -1837,14 +1843,14 @@ function cStart(id){
   const c=SET.chant,lv=CLEVELS.find(x=>x.id===id)||CLEVELS[0],blanks=[];
   (c.rows||[]).forEach((r,ri)=>lv.cols.forEach(ci=>{const w=r.cells[ci];if(w&&w!=='-')blanks.push({r:ri,c:ci,w:w});}));
   CZ={lv:lv,blanks:shuffleRows(blanks),i:0,miss:0,filled:{},msg:''};
-  cRender();
+  if(lv.write)cWR();else cRender();
 }
 // 줄 순서대로 채우되, 같은 줄 안에서는 왼쪽부터
 function shuffleRows(b){return b.slice().sort((x,y)=>x.r-y.r||x.c-y.c);}
 function cKey(r,c){return r+'-'+c;}
-function cTable(){
+function cTable(sm){
   const c=SET.chant,cur=CZ.i<CZ.blanks.length?CZ.blanks[CZ.i]:null;
-  let h='<div class="ctwrap"><table class="ctab"><tr><th></th>'+(c.cols||[]).map(x=>`<th>${esc(x)}</th>`).join('')+'</tr>';
+  let h='<div class="ctwrap"><table class="ctab'+(sm?' sm':'')+'"><tr><th></th>'+(c.cols||[]).map(x=>`<th>${esc(x)}</th>`).join('')+'</tr>';
   (c.rows||[]).forEach((r,ri)=>{
     h+=`<tr><th class="rh">${esc(r.ko||'')}</th>`;
     r.cells.forEach((w,ci)=>{
@@ -1889,14 +1895,54 @@ function cPick(btn){
     CZ.msg='앗, 다시 한 번 골라볼까? 🤔';const m=$('#cmsg');if(m)m.textContent=CZ.msg;
   }
 }
+/* 펜으로 써보기 단계 — 단어 쓰기 캔버스를 그대로 씀 */
+function cWR(){
+  const b=CZ.blanks[CZ.i];if(!b)return cEnd();
+  const c=SET.chant,row=c.rows[b.r];
+  WR={target:b.w,checked:false};
+  $('#app').innerHTML=topbar(`${CZ.lv.icon} ${CZ.lv.name}`,'chantHome()')+
+  `<div class="bar"><i style="width:${CZ.i/CZ.blanks.length*100}%"></i></div>
+  <div class="card" style="padding:12px 18px">${cTable(1)}</div>
+  <div class="wrapcv" id="wrap"><canvas id="cv"></canvas></div>
+  <div class="tools">
+   <button class="tg ${PEN.trace?'on':''}" id="tTrace">👀 힌트 ${PEN.trace?'ON':'OFF'}</button>
+   <button class="tg ${PEN.penOnly?'on':''}" id="tPen">${PEN.penOnly?'🖊️ 펜만':'✋ 손가락OK'}</button>
+   ${colorBtns()}
+   ${toolBtns()}
+   <button class="tg" onclick="sayKo('${escA(row.ko)}')">🔊 ${esc(row.ko)}</button>
+  </div>
+  <div class="msg" id="wmsg">분홍 칸 — <b>${esc(row.ko)}</b> 의 <b>${esc(c.cols[b.c])}</b> 을(를) 써 보세요 ${PEN.trace?'✍️ (점선을 따라가요)':'🧠 (힌트 없이!)'}</div>
+  <div class="nav"><span class="counter">${CZ.i} / ${CZ.blanks.length} 칸</span>
+   <span id="wbtns"><button class="btn b2" onclick="cWCheck()">✅ 다 썼어요! 정답 확인</button></span>
+   <button class="btn bg" onclick="cSkip()">건너뛰기 ▶</button></div>`;
+  $('#tTrace').onclick=()=>{PEN.trace=!PEN.trace;savePen();cWR();};
+  $('#tPen').onclick=()=>{PEN.penOnly=!PEN.penOnly;savePen();cWR();};
+  setupCanvas();
+}
+function cWCheck(){
+  const b=CZ.blanks[CZ.i];
+  WR.checked=true;WR.showAns=true;redraw();say(b.w);
+  $('#wmsg').innerHTML=ansBanner(b.w)+'<div style="font-size:20px;color:var(--sub)">초록 테두리 글자 안에 내 글씨가 잘 들어갔나요? '+ansToggleBtn()+'</div>';
+  $('#wbtns').innerHTML=`<button class="btn b3" id="cOk">⭕ 맞게 썼어요!</button> <button class="btn b1" id="cNo">❌ 틀렸어요</button>`;
+  $('#cOk').onclick=()=>{
+    ding();confetti(18);addStar(1);
+    CZ.filled[cKey(b.r,b.c)]=1;CZ.i++;
+    $('#wmsg').innerHTML=PRAISE[Math.floor(Math.random()*PRAISE.length)]+' ⭐+1';
+    $('#wbtns').innerHTML=`<button class="btn b2" onclick="say('${escA(b.w)}')">🔊 다시 듣기</button> <button class="btn b4" onclick="${CZ.i<CZ.blanks.length?'cWR()':'cEnd()'}">${CZ.i<CZ.blanks.length?'다음 칸 ▶':'결과 보기 🎉'}</button>`;
+  };
+  $('#cNo').onclick=()=>{CZ.miss++;PEN.trace=true;savePen();cWR();
+    const m=$('#wmsg');if(m)m.innerHTML='괜찮아요! 점선을 따라 한 번 더 써 봐요 ✍️';};
+}
+function cSkip(){CZ.miss++;CZ.i++;if(CZ.i<CZ.blanks.length)cWR();else cEnd();}
 function cEnd(){
-  const n=CZ.blanks.length,miss=CZ.miss,perfect=miss===0;
+  const n=CZ.blanks.length,miss=CZ.miss,perfect=miss===0,wr=!!CZ.lv.write;
   if(n===0||miss<=Math.max(1,Math.round(n*.2))){SS.cdone[CZ.lv.id]=1;save();}
-  addStar(perfect?2:1);fanfare();confetti(45);
+  CZ.blanks.forEach(b=>CZ.filled[cKey(b.r,b.c)]=1);
+  if(!wr)addStar(perfect?2:1);fanfare();confetti(45);
   const k=CLEVELS.findIndex(x=>x.id===CZ.lv.id),next=CLEVELS[k+1];
   $('#app').innerHTML=topbar(`${CZ.lv.icon} ${CZ.lv.name}`,'chantHome()')+
   `<div class="card center"><div class="bigstar">${n===0?'🏅':perfect?'⭐⭐⭐':miss<=n*.3?'⭐⭐':'⭐'}</div>
-   <h1 style="font-size:40px;font-weight:400;margin:10px 0">${n===0?'표를 다 봤어요! 이제 빈칸을 채워 볼까요?':perfect?`${n}칸을 한 번에 다 채웠어요!`:`${n}칸을 다 채웠어요! (헷갈린 칸 ${miss}번)`}</h1>
+   <h1 style="font-size:40px;font-weight:400;margin:10px 0">${n===0?'표를 다 봤어요! 이제 빈칸을 채워 볼까요?':perfect?`${n}칸을 한 번에 다 ${wr?'썼어요':'채웠어요'}!`:`${n}칸을 다 ${wr?'썼어요':'채웠어요'}! (${wr?'다시 쓴':'헷갈린'} 칸 ${miss}번)`}</h1>
    <p style="font-size:24px;color:var(--sub)">${perfect?'소유격과 소유대명사를 잘 구분하고 있어요 🏆':'헷갈리는 줄만 한 번 더 해 보면 금방 외워져요 💪'}</p>
    <div class="card" style="box-shadow:none;border:none;padding:6px 0">${cTable()}</div>
    <div class="nav" style="justify-content:center;flex-wrap:wrap">
