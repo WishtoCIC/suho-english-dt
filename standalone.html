@@ -1911,9 +1911,9 @@ function cWR(){
    <button class="tg ${PEN.penOnly?'on':''}" id="tPen">${PEN.penOnly?'🖊️ 펜만':'✋ 손가락OK'}</button>
    ${colorBtns()}
    ${toolBtns()}
-   <button class="tg" onclick="sayKo('${escA(row.ko)}')">🔊 ${esc(row.ko)}</button>
+   <button class="tg" onclick="say('${escA(row.cells[0])}')">🔊 ${esc(row.cells[0])}</button>
   </div>
-  <div class="msg" id="wmsg">분홍 칸 — <b>${esc(row.ko)}</b> 의 <b>${esc(c.cols[b.c])}</b> 을(를) 써 보세요 ${PEN.trace?'✍️ (점선을 따라가요)':'🧠 (힌트 없이!)'}</div>
+  <div class="msg" id="wmsg">분홍 칸 — <b>${esc(row.ko)}(${esc(row.cells[0])})</b> 줄의 <b>${esc(c.cols[b.c])}</b> 칸을 써 보세요 ${PEN.trace?'✍️ (점선을 따라가요)':'🧠 (힌트 없이!)'}</div>
   <div class="nav"><span class="counter">${CZ.i} / ${CZ.blanks.length} 칸</span>
    <span id="wbtns"><button class="btn b2" onclick="cWCheck()">✅ 다 썼어요! 정답 확인</button></span>
    <button class="btn bg" onclick="cSkip()">건너뛰기 ▶</button></div>`;
