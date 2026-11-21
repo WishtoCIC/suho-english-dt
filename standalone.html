@@ -1507,7 +1507,9 @@ function writeSent(ui,k){
 let cv,ctx,ink,inkCtx,drawing=false,last=null;
 function setupCanvas(){
   cv=$('#cv');const wrap=$('#wrap');const dpr=window.devicePixelRatio||1;
-  const W=wrap.clientWidth,H=Math.max(170,Math.min(300,window.innerHeight/Z*.26));const R=dpr*Z;
+  // 인칭대명사 표 쓰기는 표가 위에 있어서 쓰는 칸을 조금 낮게 잡아요 (한 낱말만 쓰면 되니까)
+  const chantW=!!(WR&&WR.chant);
+  const W=wrap.clientWidth,H=chantW?Math.max(140,Math.min(215,window.innerHeight/Z*.19)):Math.max(170,Math.min(300,window.innerHeight/Z*.26));const R=dpr*Z;
   cv.width=Math.round(W*R);cv.height=Math.round(H*R);cv.style.height=H+'px';
   ctx=cv.getContext('2d');ctx.scale(R,R);
   ink=document.createElement('canvas');ink.width=cv.width;ink.height=cv.height;inkCtx=ink.getContext('2d');inkCtx.scale(R,R);
@@ -1899,7 +1901,7 @@ function cPick(btn){
 function cWR(){
   const b=CZ.blanks[CZ.i];if(!b)return cEnd();
   const c=SET.chant,row=c.rows[b.r];
-  WR={target:b.w,checked:false};
+  WR={target:b.w,checked:false,chant:true};
   $('#app').innerHTML=topbar(`${CZ.lv.icon} ${CZ.lv.name}`,'chantHome()')+
   `<div class="bar"><i style="width:${CZ.i/CZ.blanks.length*100}%"></i></div>
   <div class="card" style="padding:12px 18px">${cTable(1)}</div>
