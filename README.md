@@ -26,8 +26,11 @@
   - 7 · 7 · 6 세 묶음 + 전체, Pre-test 5단계는 위와 같음
 - **Lesson 10 단어 시험** (2026-11 세트: DSB1 Lesson10 What are you doing?, 20개): 문장 없이 단어만
   - 7 · 7 · 6 세 묶음 + 전체. `video game` 처럼 두 단어인 단어는 철자 맞추기에서 공백이 자동으로 건너뛰어져요
-- **Lesson 11 단어 시험** (2026-11 세트: DSB1 Lesson11 The Three Brothers and the Dragon, 20개 — 지금 앱이 기본으로 여는 시험): 문장 없이 단어만
+- **Lesson 11 단어 시험** (2026-11 세트: DSB1 Lesson11 The Three Brothers and the Dragon, 20개): 문장 없이 단어만
   - 7 · 7 · 6 세 묶음 + 전체. `sweep away-swept away` 는 철자 맞추기에서 글자 조각이 18개로 가장 길어요
+- **Lesson 12 시험** (2026-11 세트: DSB1 Lesson12 Whose jacket is it?, 교재 95p — 지금 앱이 기본으로 여는 시험)
+  - 문장: `Whose ~ is it?` 단원 8문제 — 교재 왼쪽 Chant 표(인칭대명사)를 문장 연습으로 옮긴 것 (교재에 없는 문장이라 직접 만듦)
+  - Pre-test: Dialogue 단어 10개, 5 · 5 두 묶음 + 전체
 - **이름·과정**: 첫 화면에서 이름을 쓰고 과정을 고르면 홈에서 `안녕, OO야!` 로 부르고, 과정 사다리에 지금 칸이 표시돼요
   - 과정: IS ➜ DS(DSA·DSB·DSC·DSD) ➜ LS(LSA·LSB·LSC·LSD) ➜ MS(MSA·MSB) 총 11단계
   - 홈의 `✏️ 이름·과정` 버튼으로 언제든 바꿀 수 있고, 바꿔도 별·스티커는 그대로예요
