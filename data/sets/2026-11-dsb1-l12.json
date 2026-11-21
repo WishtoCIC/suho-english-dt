@@ -3,43 +3,239 @@
  "title": "DSB1 Lesson12: Whose jacket is it?",
  "ko": "Lesson 12 시험",
  "added": "2026-11-21",
- "source": ["KakaoTalk_Photo_2026-11-21-11-55-57.jpeg"],
- "units": [
-  {"id": "l12-whose", "color": "var(--c1)", "emoji": "🧥",
-   "title": "Whose ~ is it?", "ko": "이거 누구 거야?", "page": "DSB1 95p",
-   "tip": "💡 <b>Whose</b> 는 '누구의'라는 뜻이에요. 대답은 <b>It's mine.</b> (내 거야) 처럼 해요.<br>💡 <b>mine / yours / his / hers / ours / theirs</b> 는 뒤에 물건 이름을 안 붙여요. 그 자체로 '~의 것'이에요.<br>💡 <b>my / your / his / her / our / their</b> 는 뒤에 물건 이름을 꼭 붙여요.<br>예) It's <b>my</b> jacket. = It's <b>mine</b>.",
-   "pool": ["mine", "yours", "his", "hers", "ours", "theirs", "my", "her"],
-   "items": [
-    {"pic": "🙋🧥", "q": "Whose jacket is it?", "a": "It's {mine}."},
-    {"pic": "👉☂️", "q": "Whose umbrella is it?", "a": "It's {yours}."},
-    {"pic": "👦🖊️", "q": "Whose marker is it?", "a": "It's {his}."},
-    {"pic": "👧📕", "q": "Whose textbook is it?", "a": "It's {hers}."},
-    {"pic": "👨‍👩‍👦🏫", "q": "Whose classroom is it?", "a": "It's {ours}."},
-    {"pic": "👬🐶", "q": "Whose dog is it?", "a": "It's {theirs}."},
-    {"pic": "🙋🧥", "q": "Is this your jacket?", "a": "Yes, it's {my} jacket."},
-    {"pic": "👧☂️", "q": "Is this her umbrella?", "a": "Yes, it's {her} umbrella."}
-   ]}
+ "source": [
+  "KakaoTalk_Photo_2026-11-21-11-55-57.jpeg"
  ],
+ "units": [
+  {
+   "id": "l12-whose",
+   "color": "var(--c1)",
+   "emoji": "🧥",
+   "title": "Whose ~ is it?",
+   "ko": "이거 누구 거야?",
+   "page": "DSB1 95p",
+   "tip": "💡 <b>Whose</b> 는 '누구의'라는 뜻이에요. 대답은 <b>It's mine.</b> (내 거야) 처럼 해요.<br>💡 <b>mine / yours / his / hers / ours / theirs</b> 는 뒤에 물건 이름을 안 붙여요. 그 자체로 '~의 것'이에요.<br>💡 <b>my / your / his / her / our / their</b> 는 뒤에 물건 이름을 꼭 붙여요.<br>예) It's <b>my</b> jacket. = It's <b>mine</b>.",
+   "pool": [
+    "mine",
+    "yours",
+    "his",
+    "hers",
+    "ours",
+    "theirs",
+    "my",
+    "her"
+   ],
+   "items": [
+    {
+     "pic": "🙋🧥",
+     "q": "Whose jacket is it?",
+     "a": "It's {mine}."
+    },
+    {
+     "pic": "👉☂️",
+     "q": "Whose umbrella is it?",
+     "a": "It's {yours}."
+    },
+    {
+     "pic": "👦🖊️",
+     "q": "Whose marker is it?",
+     "a": "It's {his}."
+    },
+    {
+     "pic": "👧📕",
+     "q": "Whose textbook is it?",
+     "a": "It's {hers}."
+    },
+    {
+     "pic": "👨‍👩‍👦🏫",
+     "q": "Whose classroom is it?",
+     "a": "It's {ours}."
+    },
+    {
+     "pic": "👬🐶",
+     "q": "Whose dog is it?",
+     "a": "It's {theirs}."
+    },
+    {
+     "pic": "🙋🧥",
+     "q": "Is this your jacket?",
+     "a": "Yes, it's {my} jacket."
+    },
+    {
+     "pic": "👧☂️",
+     "q": "Is this her umbrella?",
+     "a": "Yes, it's {her} umbrella."
+    }
+   ]
+  }
+ ],
+ "chant": {
+  "title": "인칭대명사 표",
+  "ko": "나 ➜ 나의 ➜ 나를 ➜ 나의 것",
+  "page": "DSB1 95p Chant",
+  "tip": "💡 한 줄을 왼쪽부터 <b>주격 ➜ 소유격 ➜ 목적격 ➜ 소유대명사</b> 순서로 읽어요.<br>💡 <b>소유격</b>(my, your…) 뒤에는 물건 이름을 꼭 붙여요. 예) <b>my</b> jacket<br>💡 <b>소유대명사</b>(mine, yours…)는 뒤에 아무것도 안 붙여요. 그 자체로 '~의 것'이에요. 예) It's <b>mine</b>.<br>💡 <b>it</b> 은 '~의 것'이 없어서 칸이 비어 있어요 (–).",
+  "cols": [
+   "주격 (~은, ~는)",
+   "소유격 (~의)",
+   "목적격 (~을, ~를)",
+   "소유대명사 (~의 것)"
+  ],
+  "rows": [
+   {
+    "ko": "나",
+    "cells": [
+     "I",
+     "my",
+     "me",
+     "mine"
+    ]
+   },
+   {
+    "ko": "너",
+    "cells": [
+     "you",
+     "your",
+     "you",
+     "yours"
+    ]
+   },
+   {
+    "ko": "그 (남자)",
+    "cells": [
+     "he",
+     "his",
+     "him",
+     "his"
+    ]
+   },
+   {
+    "ko": "그녀 (여자)",
+    "cells": [
+     "she",
+     "her",
+     "her",
+     "hers"
+    ]
+   },
+   {
+    "ko": "그것",
+    "cells": [
+     "it",
+     "its",
+     "it",
+     "-"
+    ]
+   },
+   {
+    "ko": "우리",
+    "cells": [
+     "we",
+     "our",
+     "us",
+     "ours"
+    ]
+   },
+   {
+    "ko": "너희",
+    "cells": [
+     "you",
+     "your",
+     "you",
+     "yours"
+    ]
+   },
+   {
+    "ko": "그들",
+    "cells": [
+     "they",
+     "their",
+     "them",
+     "theirs"
+    ]
+   }
+  ]
+ },
  "alt": {
-  "mine": ["my", "me"],
-  "yours": ["your", "you"],
-  "hers": ["her", "she"],
-  "ours": ["our", "us"],
-  "theirs": ["their", "them"],
-  "my": ["mine", "me"],
-  "her": ["hers", "she"]
+  "mine": [
+   "my",
+   "me"
+  ],
+  "yours": [
+   "your",
+   "you"
+  ],
+  "hers": [
+   "her",
+   "she"
+  ],
+  "ours": [
+   "our",
+   "us"
+  ],
+  "theirs": [
+   "their",
+   "them"
+  ],
+  "my": [
+   "mine",
+   "me"
+  ],
+  "her": [
+   "hers",
+   "she"
+  ]
  },
  "vocabTitle": "DSB1 Lesson12 (10개)",
  "vocab": [
-  {"en": "messy", "ko": "지저분한, 엉망인", "pic": "🌪️"},
-  {"en": "classroom", "ko": "교실", "pic": "🏫"},
-  {"en": "textbook", "ko": "교과서", "pic": "📕"},
-  {"en": "floor", "ko": "바닥", "pic": "👣"},
-  {"en": "wet", "ko": "젖은", "pic": "💧"},
-  {"en": "umbrella", "ko": "우산", "pic": "☂️"},
-  {"en": "marker", "ko": "매직펜, 마커", "pic": "🖊️"},
-  {"en": "jacket", "ko": "재킷, 상의", "pic": "🧥"},
-  {"en": "dirty", "ko": "더러운, 지저분한", "pic": "🧦"},
-  {"en": "sure", "ko": "확신하는, 확실히 아는", "pic": "👌"}
+  {
+   "en": "messy",
+   "ko": "지저분한, 엉망인",
+   "pic": "🌪️"
+  },
+  {
+   "en": "classroom",
+   "ko": "교실",
+   "pic": "🏫"
+  },
+  {
+   "en": "textbook",
+   "ko": "교과서",
+   "pic": "📕"
+  },
+  {
+   "en": "floor",
+   "ko": "바닥",
+   "pic": "👣"
+  },
+  {
+   "en": "wet",
+   "ko": "젖은",
+   "pic": "💧"
+  },
+  {
+   "en": "umbrella",
+   "ko": "우산",
+   "pic": "☂️"
+  },
+  {
+   "en": "marker",
+   "ko": "매직펜, 마커",
+   "pic": "🖊️"
+  },
+  {
+   "en": "jacket",
+   "ko": "재킷, 상의",
+   "pic": "🧥"
+  },
+  {
+   "en": "dirty",
+   "ko": "더러운, 지저분한",
+   "pic": "🧦"
+  },
+  {
+   "en": "sure",
+   "ko": "확신하는, 확실히 아는",
+   "pic": "👌"
+  }
  ]
 }

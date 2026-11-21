@@ -63,6 +63,15 @@ button{font-family:inherit;border:none;cursor:pointer;color:inherit}
 .bar{height:16px;background:#F3E6D2;border-radius:99px;overflow:hidden;margin:2px 0 14px}
 .bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--c2),var(--c1));border-radius:99px;transition:width .3s}
 .msg{font-size:28px;text-align:center;min-height:40px;margin-top:10px}
+.ctwrap{overflow-x:auto;padding:4px 0}
+.ctab{border-collapse:separate;border-spacing:7px;margin:0 auto;font-size:30px}
+.ctab th{font-size:18px;color:var(--sub);font-weight:400;padding:2px 6px;line-height:1.3;max-width:160px}
+.ctab th.rh{font-size:23px;color:var(--ink);white-space:nowrap;text-align:right;padding-right:10px}
+.ctab td{background:#FFF8EC;border:3px solid var(--line);border-radius:16px;padding:9px 14px;text-align:center;min-width:124px}
+.ctab td.dash{color:#C9BBAE;background:#F3E6D2}
+.ctab td.cb{border-style:dashed;border-color:var(--c1);background:#fff;color:var(--c1)}
+.ctab td.cb.cur{background:#FFE6DE;animation:pulse 1.2s infinite}
+.ctab td.cb.ok{border-style:solid;border-color:var(--ok);background:#DFF7EA;color:var(--ok)}
 /* writing */
 .wrapcv{-webkit-touch-callout:none;-webkit-user-select:none;position:relative;margin-top:16px;background:#fff;border-radius:22px;border:3px solid var(--line);overflow:hidden;touch-action:none}
 canvas{display:block;width:100%;touch-action:none}
@@ -132,7 +141,7 @@ function useSet(id){
   const gc=Math.max(1,Math.ceil(n/9)),gs=Math.ceil(n/gc);
   for(let a=0,k=0;a<n;a+=gs,k++)VGROUPS.push({name:(k+1)+'묶음',range:[a,Math.min(a+gs,n)],color:VG_COLORS[k%VG_COLORS.length],icon:VG_ICONS[k%VG_ICONS.length]});
   if(VGROUPS.length>1)VGROUPS.push({name:'전체 '+n+'개',range:[0,n],color:'var(--c5)',icon:'🧺'});
-  S.sets=S.sets||{};SS=S.sets[SET.id]=S.sets[SET.id]||{vdone:{},wrong:[]};
+  S.sets=S.sets||{};SS=S.sets[SET.id]=S.sets[SET.id]||{vdone:{},wrong:[]};SS.cdone=SS.cdone||{};
   S.set=SET.id;save();
 }
 // 예전 기록(세트 구분 없던 시절)은 첫 세트로 옮김
@@ -295,6 +304,7 @@ function home(){
   ${setBar()}
   <div class="grid">`+
   UNITS.map((u,i)=>{const d=(S.done[u.id]||[]).length;return `<button class="tile" style="background:${u.color}" onclick="unitMenu(${i})"><div><div class="big">${u.emoji}</div><div class="t en">${u.title}</div><div class="s">${u.ko} · ${u.page}</div></div><div class="prog">⭐ ${d} / ${u.items.length}</div></button>`}).join('')+
+  (SET.chant?`<button class="tile" style="background:linear-gradient(135deg,#B07CFF,#4AA8FF)" onclick="chantHome()"><div><div class="big">🧩</div><div class="t">${SET.chant.title||'인칭대명사 표'}</div><div class="s">${SET.chant.ko||'표의 빈칸을 채우며 외워요'}</div></div><div class="prog">🏅 ${CLEVELS.filter(l=>SS.cdone[l.id]).length} / ${CLEVELS.length} 단계</div></button>`:'')+
   (VOCAB.length?`<button class="tile" style="background:linear-gradient(135deg,#4AA8FF,#4CC38A)" onclick="vocabHome()"><div><div class="big">🔤</div><div class="t">Pre-test (${VOCAB.length}개)</div><div class="s">영어 ➜ 한글, 한글 ➜ 영어 차근차근</div></div><div class="prog">🏅 단계별 5단계</div></button>`:'')+`
    ${UNITS.length?`<button class="tile" style="background:linear-gradient(135deg,#FF7A59,#B07CFF)" onclick="challenge(10)"><div><div class="big">🏆</div><div class="t">실전 DT 도전!</div><div class="s">랜덤 10문제 · 시험처럼 풀어보기</div></div><div class="prog">⭐ 보너스 별</div></button>`:''}
    <button class="tile" style="background:#7B6A5E" onclick="stickers()"><div><div class="big">📒</div><div class="t">스티커 북</div><div class="s">모은 스티커 구경하기</div></div><div class="prog">${Math.min(st,STICKERS.length)} / ${STICKERS.length}</div></button>
@@ -757,6 +767,98 @@ function vEnd(){
     <button class="btn b1" onclick="vStart(${JSON.stringify(VZ.g)},'${VZ.mode}')">🔁 다시 하기</button>
     ${nextM?`<button class="btn b3" onclick="vStart(${JSON.stringify(VZ.g)},'${nextM.id}')">다음 단계: ${nextM.name} ▶</button>`:''}
     <button class="btn b4" onclick="vocabHome()">🔤 Pre-test 처음으로</button></div></div>`;
+}
+
+/* ===================== 인칭대명사 표 채우기 ===================== */
+const CLEVELS=[
+ {id:'see',icon:'📖',name:'보고 외우기',desc:'표를 소리내어 읽어요. 칸을 누르면 읽어줘요',cols:[]},
+ {id:'own',icon:'🧩',name:'~의 것 채우기',desc:'맨 오른쪽 소유대명사 칸만 채워요',cols:[3]},
+ {id:'mid',icon:'🧩',name:'~의 · ~을 채우기',desc:'가운데 소유격·목적격 두 칸을 채워요',cols:[1,2]},
+ {id:'all',icon:'🏆',name:'주격만 보고 다 채우기',desc:'맨 왼쪽만 보고 나머지 세 칸을 전부 채워요',cols:[1,2,3]}
+];
+let CZ=null;
+function cSay(w){if(w&&w!=='-')say(w);}
+function chantHome(){
+  stopTalk();
+  const c=SET.chant;if(!c)return home();
+  $('#app').innerHTML=topbar(`🧩 ${c.title||'인칭대명사 표'} <span style="font-size:20px;color:var(--sub)">${c.page||''}</span>`,'home()')+
+  `<div class="tipbox">${c.tip||''}</div>
+  <div class="grid">`+
+  CLEVELS.map((lv,k)=>{const done=SS.cdone[lv.id];
+   return `<button class="tile" style="background:${['var(--c4)','var(--c3)','var(--c2)','var(--c1)'][k]};${k===2?'color:#5a3d00':''}" onclick="cStart('${lv.id}')"><div><div class="big" style="font-size:40px">${lv.icon}</div><div class="t">${k+1}단계 · ${lv.name}</div><div class="s">${lv.desc}</div></div><div class="prog">${done?'🏅 완료!':'도전!'}</div></button>`;}).join('')+
+  `</div>`;
+}
+function cStart(id){
+  stopTalk();
+  const c=SET.chant,lv=CLEVELS.find(x=>x.id===id)||CLEVELS[0],blanks=[];
+  (c.rows||[]).forEach((r,ri)=>lv.cols.forEach(ci=>{const w=r.cells[ci];if(w&&w!=='-')blanks.push({r:ri,c:ci,w:w});}));
+  CZ={lv:lv,blanks:shuffleRows(blanks),i:0,miss:0,filled:{},msg:''};
+  cRender();
+}
+// 줄 순서대로 채우되, 같은 줄 안에서는 왼쪽부터
+function shuffleRows(b){return b.slice().sort((x,y)=>x.r-y.r||x.c-y.c);}
+function cKey(r,c){return r+'-'+c;}
+function cTable(){
+  const c=SET.chant,cur=CZ.i<CZ.blanks.length?CZ.blanks[CZ.i]:null;
+  let h='<div class="ctwrap"><table class="ctab"><tr><th></th>'+(c.cols||[]).map(x=>`<th>${esc(x)}</th>`).join('')+'</tr>';
+  (c.rows||[]).forEach((r,ri)=>{
+    h+=`<tr><th class="rh">${esc(r.ko||'')}</th>`;
+    r.cells.forEach((w,ci)=>{
+      const isB=CZ.blanks.some(b=>b.r===ri&&b.c===ci);
+      if(!isB){h+=`<td class="en${w==='-'?' dash':''}" onclick="cSay('${escA(w)}')">${esc(w)}</td>`;return;}
+      const f=CZ.filled[cKey(ri,ci)],on=cur&&cur.r===ri&&cur.c===ci;
+      h+=`<td class="en cb${f?' ok':''}${on?' cur':''}"${f?` onclick="cSay('${escA(w)}')"`:''}>${f?esc(w):'&nbsp;'}</td>`;
+    });
+    h+='</tr>';
+  });
+  return h+'</table></div>';
+}
+function cChoices(b){
+  const c=SET.chant,row=c.rows[b.r],rp=[],cp=[];
+  row.cells.forEach((w,i)=>{if(i!==b.c&&w&&w!=='-'&&w!==b.w&&rp.indexOf(w)<0)rp.push(w);});
+  c.rows.forEach((r,i)=>{if(i!==b.r){const w=r.cells[b.c];if(w&&w!=='-'&&w!==b.w&&cp.indexOf(w)<0&&rp.indexOf(w)<0)cp.push(w);}});
+  let ds=shuffle(rp).slice(0,2);
+  ds=ds.concat(shuffle(cp).filter(w=>ds.indexOf(w)<0)).slice(0,3);
+  return shuffle([b.w].concat(ds));
+}
+function cRender(){
+  const c=SET.chant,lv=CZ.lv,n=CZ.blanks.length,cur=CZ.i<n?CZ.blanks[CZ.i]:null;
+  const where=cur?`${c.rows[cur.r].ko} ➜ <b>${esc(c.cols[cur.c])}</b> 칸`:'';
+  $('#app').innerHTML=topbar(`${lv.icon} ${lv.name}`,'chantHome()')+
+   (n?`<div class="bar"><i style="width:${CZ.i/n*100}%"></i></div>`:'')+
+   `<div class="card">${cTable()}<div class="choices en" id="cchs"></div></div>
+    <div class="msg" id="cmsg">${CZ.msg||(n?`빈칸에 알맞은 말을 골라요 — 지금은 ${where}`:'칸을 눌러 소리를 들어 보세요. 다 외웠으면 아래 버튼을 눌러요!')}</div>
+    <div class="nav">${n?`<span class="counter">${CZ.i} / ${n} 칸</span><span class="counter">${CZ.miss?`헷갈린 칸 ${CZ.miss}번`:'한 번에 가는 중! 👍'}</span>`:'<span class="counter"></span>'}</div>`;
+  if(!n){$('#cchs').innerHTML=`<button class="btn b3" onclick="cEnd()">✅ 다 외웠어요!</button>`;return;}
+  if(!cur)return;
+  $('#cchs').innerHTML=cChoices(cur).map(w=>`<button class="ch" data-w="${escA(w)}">${esc(w)}</button>`).join('');
+  $('#cchs').querySelectorAll('.ch').forEach(b=>b.onclick=()=>cPick(b));
+}
+function cPick(btn){
+  const b=CZ.blanks[CZ.i];
+  if(btn.dataset.w===b.w){
+    btn.classList.add('right');ding();say(b.w);
+    CZ.filled[cKey(b.r,b.c)]=1;CZ.i++;CZ.msg='';
+    setTimeout(()=>{if(CZ.i>=CZ.blanks.length)cEnd();else cRender();},320);
+  } else {
+    btn.classList.add('wrong');boop();CZ.miss++;
+    CZ.msg='앗, 다시 한 번 골라볼까? 🤔';const m=$('#cmsg');if(m)m.textContent=CZ.msg;
+  }
+}
+function cEnd(){
+  const n=CZ.blanks.length,miss=CZ.miss,perfect=miss===0;
+  if(n===0||miss<=Math.max(1,Math.round(n*.2))){SS.cdone[CZ.lv.id]=1;save();}
+  addStar(perfect?2:1);fanfare();confetti(45);
+  const k=CLEVELS.findIndex(x=>x.id===CZ.lv.id),next=CLEVELS[k+1];
+  $('#app').innerHTML=topbar(`${CZ.lv.icon} ${CZ.lv.name}`,'chantHome()')+
+  `<div class="card center"><div class="bigstar">${n===0?'🏅':perfect?'⭐⭐⭐':miss<=n*.3?'⭐⭐':'⭐'}</div>
+   <h1 style="font-size:40px;font-weight:400;margin:10px 0">${n===0?'표를 다 봤어요! 이제 빈칸을 채워 볼까요?':perfect?`${n}칸을 한 번에 다 채웠어요!`:`${n}칸을 다 채웠어요! (헷갈린 칸 ${miss}번)`}</h1>
+   <p style="font-size:24px;color:var(--sub)">${perfect?'소유격과 소유대명사를 잘 구분하고 있어요 🏆':'헷갈리는 줄만 한 번 더 해 보면 금방 외워져요 💪'}</p>
+   <div class="card" style="box-shadow:none;border:none;padding:6px 0">${cTable()}</div>
+   <div class="nav" style="justify-content:center;flex-wrap:wrap">
+    <button class="btn b1" onclick="cStart('${CZ.lv.id}')">🔁 다시 하기</button>
+    ${next?`<button class="btn b3" onclick="cStart('${next.id}')">다음 단계: ${next.name} ▶</button>`:''}
+    <button class="btn b4" onclick="chantHome()">🧩 표 처음으로</button></div></div>`;
 }
 
 applyZoom();home();

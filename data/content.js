@@ -870,6 +870,92 @@ window.DT_SETS = [
     ]
    }
   ],
+  "chant": {
+   "title": "인칭대명사 표",
+   "ko": "나 ➜ 나의 ➜ 나를 ➜ 나의 것",
+   "page": "DSB1 95p Chant",
+   "tip": "💡 한 줄을 왼쪽부터 <b>주격 ➜ 소유격 ➜ 목적격 ➜ 소유대명사</b> 순서로 읽어요.<br>💡 <b>소유격</b>(my, your…) 뒤에는 물건 이름을 꼭 붙여요. 예) <b>my</b> jacket<br>💡 <b>소유대명사</b>(mine, yours…)는 뒤에 아무것도 안 붙여요. 그 자체로 '~의 것'이에요. 예) It's <b>mine</b>.<br>💡 <b>it</b> 은 '~의 것'이 없어서 칸이 비어 있어요 (–).",
+   "cols": [
+    "주격 (~은, ~는)",
+    "소유격 (~의)",
+    "목적격 (~을, ~를)",
+    "소유대명사 (~의 것)"
+   ],
+   "rows": [
+    {
+     "ko": "나",
+     "cells": [
+      "I",
+      "my",
+      "me",
+      "mine"
+     ]
+    },
+    {
+     "ko": "너",
+     "cells": [
+      "you",
+      "your",
+      "you",
+      "yours"
+     ]
+    },
+    {
+     "ko": "그 (남자)",
+     "cells": [
+      "he",
+      "his",
+      "him",
+      "his"
+     ]
+    },
+    {
+     "ko": "그녀 (여자)",
+     "cells": [
+      "she",
+      "her",
+      "her",
+      "hers"
+     ]
+    },
+    {
+     "ko": "그것",
+     "cells": [
+      "it",
+      "its",
+      "it",
+      "-"
+     ]
+    },
+    {
+     "ko": "우리",
+     "cells": [
+      "we",
+      "our",
+      "us",
+      "ours"
+     ]
+    },
+    {
+     "ko": "너희",
+     "cells": [
+      "you",
+      "your",
+      "you",
+      "yours"
+     ]
+    },
+    {
+     "ko": "그들",
+     "cells": [
+      "they",
+      "their",
+      "them",
+      "theirs"
+     ]
+    }
+   ]
+  },
   "alt": {
    "mine": [
     "my",
