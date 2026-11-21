@@ -142,8 +142,15 @@ function useSet(id){
   SET=SETS.find(x=>x.id===id)||SETS[SETS.length-1]||{id:'none',title:'',ko:'',units:[],alt:{},vocab:[]};
   UNITS=SET.units||[];ALT=SET.alt||{};VOCAB=SET.vocab||[];
   VGROUPS=[];const n=VOCAB.length;
-  const gc=Math.max(1,Math.ceil(n/9)),gs=Math.ceil(n/gc);
-  for(let a=0,k=0;a<n;a+=gs,k++)VGROUPS.push({name:(k+1)+'묶음',range:[a,Math.min(a+gs,n)],color:VG_COLORS[k%VG_COLORS.length],icon:VG_ICONS[k%VG_ICONS.length]});
+  if(SET.vgroups&&SET.vgroups.length){
+    // 세트가 묶음을 직접 정해 둔 경우 (교과서 단어 / 소유대명사 처럼 성격이 다른 단어를 섞지 않으려고)
+    let a=0;
+    SET.vgroups.forEach((g,k)=>{const b=Math.min(a+(g.count||0),n);if(b>a){VGROUPS.push({name:g.name||((k+1)+'묶음'),range:[a,b],color:VG_COLORS[k%VG_COLORS.length],icon:g.icon||VG_ICONS[k%VG_ICONS.length]});a=b;}});
+    if(a<n)VGROUPS.push({name:'나머지 '+(n-a)+'개',range:[a,n],color:VG_COLORS[VGROUPS.length%VG_COLORS.length],icon:VG_ICONS[VGROUPS.length%VG_ICONS.length]});
+  }else{
+    const gc=Math.max(1,Math.ceil(n/9)),gs=Math.ceil(n/gc);
+    for(let a=0,k=0;a<n;a+=gs,k++)VGROUPS.push({name:(k+1)+'묶음',range:[a,Math.min(a+gs,n)],color:VG_COLORS[k%VG_COLORS.length],icon:VG_ICONS[k%VG_ICONS.length]});
+  }
   if(VGROUPS.length>1)VGROUPS.push({name:'전체 '+n+'개',range:[0,n],color:'var(--c5)',icon:'🧺'});
   S.sets=S.sets||{};SS=S.sets[SET.id]=S.sets[SET.id]||{vdone:{},wrong:[]};SS.cdone=SS.cdone||{};
   S.set=SET.id;save();
@@ -662,8 +669,11 @@ function vCard(v){
 /* 보기 만들기: 뜻이 같은 단어(foolish/silly)는 보기에서 빼기 */
 function vChoices(i,n=4){
   const v=VOCAB[i];
-  const pool=shuffle(VOCAB.map((_,k)=>k).filter(k=>k!==i&&VOCAB[k].en!==v.same&&VOCAB[k].ko!==v.ko));
-  return shuffle([i,...pool.slice(0,n-1)]);
+  const ok=k=>k!==i&&VOCAB[k].en!==v.same&&VOCAB[k].ko!==v.ko;
+  // 지금 하는 묶음 안에서 먼저 오답을 뽑아요 (mine/yours/his 끼리 겨뤄야 헷갈리는 걸 잡아요)
+  const near=shuffle(((VZ&&VZ.list)||[]).filter(ok));
+  const rest=shuffle(VOCAB.map((_,k)=>k).filter(k=>ok(k)&&near.indexOf(k)<0));
+  return shuffle([i].concat(near.concat(rest).slice(0,n-1)));
 }
 /* 2단계: 영 ➜ 한 */
 function vEK(v){

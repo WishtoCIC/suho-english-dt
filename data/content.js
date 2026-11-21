@@ -986,7 +986,24 @@ window.DT_SETS = [
     "she"
    ]
   },
-  "vocabTitle": "DSB1 Lesson12 (10개)",
+  "vocabTitle": "DSB1 Lesson12 (교과서 10개 + 소유대명사 6개)",
+  "vgroups": [
+   {
+    "name": "교과서 1묶음",
+    "icon": "🍎",
+    "count": 5
+   },
+   {
+    "name": "교과서 2묶음",
+    "icon": "🍌",
+    "count": 5
+   },
+   {
+    "name": "소유대명사 (~의 것)",
+    "icon": "🧩",
+    "count": 6
+   }
+  ],
   "vocab": [
    {
     "en": "messy",
@@ -1037,6 +1054,36 @@ window.DT_SETS = [
     "en": "sure",
     "ko": "확신하는, 확실히 아는",
     "pic": "👌"
+   },
+   {
+    "en": "mine",
+    "ko": "나의 것",
+    "pic": "🙋"
+   },
+   {
+    "en": "yours",
+    "ko": "너의 것",
+    "pic": "👉"
+   },
+   {
+    "en": "his",
+    "ko": "그의 것",
+    "pic": "👦"
+   },
+   {
+    "en": "hers",
+    "ko": "그녀의 것",
+    "pic": "👧"
+   },
+   {
+    "en": "ours",
+    "ko": "우리의 것",
+    "pic": "👨‍👩‍👦"
+   },
+   {
+    "en": "theirs",
+    "ko": "그들의 것",
+    "pic": "👬"
    }
   ]
  }
